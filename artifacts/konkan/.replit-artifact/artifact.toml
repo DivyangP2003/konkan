@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Konkan"
+version = "1.0.0"
+id = "artifacts/konkan"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23871
+
+[services.development]
+run = "pnpm --filter @workspace/konkan run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/konkan", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/konkan/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23871"
+BASE_PATH = "/"
