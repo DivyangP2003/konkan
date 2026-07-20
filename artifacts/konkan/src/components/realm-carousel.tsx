@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sections } from '@/data/sections';
+import { Link } from 'wouter';
 
 const categoryLabels: Record<string, string> = {
   history: 'HERITAGE',
@@ -210,6 +211,34 @@ export function RealmCarousel() {
           className="mt-6 h-[1px] w-32 origin-left"
           style={{ backgroundColor: accent }}
         />
+
+        {/* Explore CTA */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`cta-${current}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mt-6"
+          >
+            <Link
+              href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/realm/${slide.id}`}
+              className="inline-flex items-center gap-3 text-[11px] font-sans tracking-[0.28em] uppercase px-6 py-3 border transition-all duration-300 hover:gap-4 hover:px-7"
+              style={{
+                borderColor: `${accent}60`,
+                color: accent,
+                backgroundColor: `${accent}12`,
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              Explore {slide.title}
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M0 5h12M8 1l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Progress bar */}

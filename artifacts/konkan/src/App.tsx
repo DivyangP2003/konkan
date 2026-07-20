@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import Home from '@/pages/home';
+import RealmPage from '@/pages/realm';
 import { CustomCursor } from '@/components/custom-cursor';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
@@ -12,6 +13,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/realm/:id" component={RealmPage} />
       <Route component={NotFound} />
     </Switch>
   );

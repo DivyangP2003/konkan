@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { sections } from '@/data/sections';
 import { useState, useRef } from 'react';
+import { useLocation } from 'wouter';
 
 // Category color map
 const accentMap: Record<string, string> = {
@@ -46,6 +47,8 @@ function PortalCard({
     my.set((e.clientY - r.top)  / r.height - 0.5);
   };
   const onMouseLeave = () => { setHovered(false); mx.set(0); my.set(0); };
+  const [, navigate] = useLocation();
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   return (
     <motion.div
@@ -57,6 +60,7 @@ function PortalCard({
       onHoverStart={() => setHovered(true)}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
+      onClick={() => navigate(`${base}/realm/${section.id}`)}
       style={{ perspective: 900 }}
       className={`relative cursor-pointer group ${featured ? 'h-[420px] sm:h-[480px]' : 'h-72 sm:h-80'}`}
     >
