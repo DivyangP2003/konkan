@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import Home from '@/pages/home';
+import { CustomCursor } from '@/components/custom-cursor';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ function App() {
           <Router />
         </WouterRouter>
         <Toaster />
+        <CustomCursor />
       </TooltipProvider>
     </QueryClientProvider>
   );
