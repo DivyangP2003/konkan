@@ -17,4 +17,26 @@ export const sections = [
   { id: 'flora-fauna', title: 'Flora & Fauna', image: '/assets/waterfall-forest.jpg', desc: 'A sanctuary of life, dense and thriving in the monsoon embrace.' },
   { id: 'beaches', title: 'The Ocean & Beaches', image: '/assets/coastal-landscape.jpg', desc: 'Pristine shores of white and black sand stretching for hundreds of kilometers.' },
   { id: 'personalities', title: 'Notable Personalities', image: '/assets/temple-carvings.jpg', desc: 'The visionaries, artists, and leaders shaped by the waves of Konkan.' },
+
+  // ── New realms ─────────────────────────────────────────────
+  { id: 'konkan-railway', title: 'The Konkan Railway', image: '/assets/konkan-railway.jpg', desc: 'A century-old dream fulfilled — 740km of track threading through 2,000 bridges and 91 tunnels along the Ghats.' },
+  { id: 'language-dialects', title: 'Language & Dialects', image: '/assets/language-dialects.jpg', desc: 'Konkani, Malvani, and Marathi coastal dialects — a linguistic patchwork shaped by traders, sailors, and settlers.' },
+  { id: 'maritime-history', title: 'Ports & Maritime Trade', image: '/assets/maritime-history.jpg', desc: "From Shivaji's navy to Arab dhows and Portuguese carracks — Konkan's coast built India's seafaring history." },
+  { id: 'religious-mosaic', title: 'Faiths of the Coast', image: '/assets/religious-mosaic.jpg', desc: 'Temples, churches, dargahs, and synagogues standing within a few kilometers of each other — a coastline of coexistence.' },
+  { id: 'monsoon', title: 'The Monsoon Season', image: '/assets/monsoon.jpg', desc: 'June to September, when the Ghats turn electric green and waterfalls appear on every hillside overnight.' },
+  { id: 'weddings-rituals', title: 'Weddings & Rituals', image: '/assets/weddings-rituals.jpg', desc: 'Coastal wedding customs, haldi ceremonies by the sea, and rituals tied to the tides and the harvest.' },
+  { id: 'handicrafts', title: 'Crafts of the Coast', image: '/assets/handicrafts.jpg', desc: 'Sawantwadi lacquerware, Kolhapuri leatherwork, shell art, and terracotta — livelihoods passed down for generations.' },
+  { id: 'freedom-struggle', title: 'Echoes of Freedom', image: '/assets/freedom-struggle.jpg', desc: "Forts, secret meeting points, and coastal towns that played their part in India's independence movement." },
+  { id: 'water-sports', title: 'Water Sports & Diving', image: '/assets/water-sports.jpg', desc: "Scuba in Malvan, kayaking through mangroves, jet-skiing off Tarkarli — Konkan's adventure-water playground." },
+  { id: 'homestays', title: 'Homestays & Slow Travel', image: '/assets/homestays.jpg', desc: 'Red-tiled Konkani wadas turned into homestays — coconut lassi on the veranda, sea breeze, no wifi required.' },
+  { id: 'geology-coastline', title: 'Geology of the Coast', image: '/assets/geology-coastline.jpg', desc: 'Laterite plateaus, black volcanic rock, and a coastline shaped by ancient lava flows and monsoon erosion.' },
+  { id: 'diaspora', title: 'The Konkani Diaspora', image: '/assets/diaspora.jpg', desc: "From Mumbai's docks to the Gulf and beyond — the communities who carried Konkan's flavor across the world." },
+
+  // ── Additional realms to round out the site (new this pass) ──
+  { id: 'wildlife-sanctuaries', title: 'Wildlife Sanctuaries', image: '/assets/wildlife-sanctuaries.jpg', desc: 'Tiger reserves, hornbill valleys, and mangrove bird havens guarding the Ghats\' last wild corners.' },
+  { id: 'forts-of-konkan', title: 'Forts of the Coast', image: '/assets/forts-of-konkan.jpg', desc: 'Over three hundred forts once guarded these shores — sea citadels, hill strongholds, and river outposts.' },
+  { id: 'textiles-costume', title: 'Textiles & Traditional Dress', image: '/assets/textiles-costume.jpg', desc: 'The nine-yard sari, the Koli fisherwoman\'s knot, and handwoven fabric dyed in coastal earth tones.' },
+  { id: 'fishing-traditions', title: 'Fishing Traditions', image: '/assets/fishing-traditions.jpg', desc: 'Dawn hauls, ancestral nets, and a trade governed by tide, moon, and monsoon more than any calendar.' },
+  { id: 'sacred-groves', title: 'Sacred Groves', image: '/assets/sacred-groves.jpg', desc: 'Deool-rai forests protected for centuries by belief alone — untouched patches of ancient biodiversity.' },
+  { id: 'literature-poets', title: 'Literature & Poets', image: '/assets/literature-poets.jpg', desc: 'Malgund\'s verses, coastal ballads, and a written tradition as old as the temples that inspired it.' },
 ];
