@@ -372,7 +372,7 @@ export function KonkanMap() {
                 src={selected.image}
                 alt={selected.name}
                 className="w-full h-full object-cover"
-                style={{ filter: 'brightness(0.55) saturate(1.2)' }}
+                style={{ filter: 'brightness(1) saturate(1.2)' }}
                 initial={{ scale: 1.04 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -380,7 +380,6 @@ export function KonkanMap() {
 
               {/* Dark gradient overlay — heavier at bottom & left for text legibility */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#020d08]/95 via-[#020d08]/30 to-transparent"/>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#020d08]/70 via-[#020d08]/20 to-transparent"/>
 
               {/* Category badge — top left */}
               <div className="absolute top-8 left-8">
