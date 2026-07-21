@@ -88,8 +88,8 @@ export function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
           scrolled || megaOpen
-            ? 'bg-[#020d08]/95 backdrop-blur-xl border-b border-[#0d2d1e]/80 shadow-[0_4px_60px_rgba(0,0,0,0.6)]'
-            : 'bg-transparent'
+            ? 'bg-[#f7f2eb]/95 backdrop-blur-xl border-b border-[#d8c8bb] shadow-[0_4px_60px_rgba(0,0,0,0.12)]'
+            : 'bg-gradient-to-b from-black/45 via-black/20 to-transparent'
         )}
       >
         <div className="flex items-center justify-between px-6 md:px-14 py-4 md:py-5">
@@ -97,7 +97,12 @@ export function Navbar() {
           {/* Logo */}
           <Link
             href={`${base}/`}
-            className="text-[28px] font-serif tracking-[0.18em] text-[#f4ecd8] font-light select-none shrink-0 z-10"
+            className={cn(
+              'text-[28px] font-serif tracking-[0.18em] font-light select-none shrink-0 z-10 transition-colors duration-500',
+              scrolled || megaOpen
+                ? 'text-[#800020]'
+                : 'text-[#f4ecd8]'
+            )}
           >
             K.
           </Link>
@@ -109,9 +114,9 @@ export function Navbar() {
               onClick={() => setMegaOpen(o => !o)}
               className={cn(
                 'flex items-center gap-1.5 px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-all duration-300 group relative',
-                megaOpen
+                scrolled || megaOpen
                   ? 'text-[#800020]'
-                  : 'text-[#800020]/60 hover:text-[#800020]'
+                  : 'text-[#f4ecd8]/85 hover:text-white'
               )}
             >
               Explore
@@ -119,7 +124,14 @@ export function Navbar() {
                 <ChevronDown size={11} strokeWidth={2} />
               </motion.span>
               {megaOpen && (
-                <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-[#3a9e6e]" />
+                <span 
+                  className={cn(
+                  "absolute bottom-0 left-4 right-4 h-[1px]",
+                  scrolled || megaOpen
+                    ? "bg-[#800020]"
+                    : "bg-[#f4ecd8]"
+                )}
+                  />
               )}
             </button>
 
@@ -130,13 +142,21 @@ export function Navbar() {
                 onClick={() => setMegaOpen(false)}
                 className={cn(
                   'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                  megaOpen
+                  scrolled || megaOpen
                     ? 'text-[#800020]'
-                    : 'text-[#800020]/60 hover:text-[#800020]'
+                    : 'text-[#f4ecd8]/85 hover:text-white'
                 )}
               >
                 {label}
-                <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-[#3a9e6e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+            
+                <span
+                  className={cn(
+                    'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
+                    scrolled || megaOpen
+                      ? 'bg-[#800020]'
+                      : 'bg-[#f4ecd8]'
+                  )}
+                />
               </a>
             ))}
           </div>
@@ -145,7 +165,7 @@ export function Navbar() {
           <a
             href="/#carousel"
             onClick={() => setMegaOpen(false)}
-            className="hidden lg:flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#020d08] bg-[#3a9e6e] hover:bg-[#4ab57e] px-5 py-2.5 transition-colors duration-300 shrink-0"
+            className="hidden lg:flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#020d08] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
           >
             Begin Journey
           </a>
