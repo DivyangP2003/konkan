@@ -109,7 +109,9 @@ export function Navbar() {
               onClick={() => setMegaOpen(o => !o)}
               className={cn(
                 'flex items-center gap-1.5 px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-all duration-300 group relative',
-                megaOpen ? 'text-[#f4ecd8]' : 'text-[#f4ecd8]/55 hover:text-[#f4ecd8]'
+                megaOpen
+                  ? 'text-[#800020]'
+                  : 'text-[#800020]/60 hover:text-[#800020]'
               )}
             >
               Explore
@@ -126,7 +128,12 @@ export function Navbar() {
                 key={href}
                 href={href}
                 onClick={() => setMegaOpen(false)}
-                className="relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/55 hover:text-[#f4ecd8] transition-colors duration-300 group"
+                className={cn(
+                  'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
+                  megaOpen
+                    ? 'text-[#800020]'
+                    : 'text-[#800020]/60 hover:text-[#800020]'
+                )}
               >
                 {label}
                 <span className="absolute bottom-0 left-4 right-4 h-[1px] bg-[#3a9e6e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
