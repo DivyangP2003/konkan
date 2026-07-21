@@ -4,17 +4,17 @@ const experiences = [
   {
     title: 'The Ancestral Echoes',
     desc: 'Wander through ancient temples carved directly from laterite stone, where shadows dance in the flickering light of brass lamps. Every village holds a deity, every grove a spirit.',
-    img: '/src/assets/temple-carvings.jpg',
+    img: '/assets/temple-carvings.jpg',
   },
   {
     title: 'The Coastal Harvest',
     desc: 'Taste the fiery kiss of Tirphal and the sour depth of Kokum. From fresh catch to slow-cooked curries, the Konkani kitchen is a mastery of spice and fire, born from the sea and the red earth.',
-    img: '/src/assets/konkani-thali.jpg',
+    img: '/assets/konkani-thali.jpg',
   },
   {
     title: 'The Wild Horizon',
     desc: 'Stand atop dramatic cliffs as the Arabian Sea crashes below. Endless stretches of pristine beaches lie hidden between mangroves and dense coastal jungles.',
-    img: '/src/assets/ocean-cliffs.jpg',
+    img: '/assets/ocean-cliffs.jpg',
   }
 ];
 
