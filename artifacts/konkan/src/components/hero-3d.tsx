@@ -19,6 +19,7 @@ export function Hero3D() {
       {/* ===================== */}
 
     <video
+        poster="https://res.cloudinary.com/wgwu1ii3/video/upload/f_auto,q_auto/v1784647176/hero_v2lw3u.jpg"
         autoPlay
         muted
         loop
@@ -27,7 +28,7 @@ export function Hero3D() {
         className="absolute inset-0 h-full w-full object-cover"
     >
         <source
-            src="https://res.cloudinary.com/wgwu1ii3/video/upload/f_auto,q_auto/v1784647176/hero_v2lw3u.mp4"
+            src="https://res.cloudinary.com/wgwu1ii3/video/upload/so_1,f_auto,q_auto/v1784647176/hero_v2lw3u.mp4"
             type="video/mp4"
         />
     </video>
