@@ -149,7 +149,7 @@ export function RealmCarousel() {
           <img
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover select-none"
+            className="w-full h-full object-contain select-none"
             style={{ filter: 'brightness(0.62) saturate(1.1)' }}
             draggable={false}
           />
