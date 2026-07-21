@@ -66,14 +66,27 @@ const labelMap: Record<string, string> = {
   'literature-poets': 'Poetry',
 };
 
+const layoutPattern = [
+  { col: "md:col-span-2", row: "md:row-span-2" },
+  { col: "",             row: "md:row-span-2" },
+  { col: "",             row: "" },
+  { col: "",             row: "" },
+  { col: "md:col-span-2", row: "" },
+  { col: "md:col-span-2", row: "md:row-span-2" },
+  { col: "",             row: "" },
+  { col: "",             row: "md:row-span-2" },
+  { col: "",             row: "" },
+  { col: "md:col-span-2", row: "" },
+  { col: "",             row: "" },
+  { col: "",             row: "" },
+];
+
 function PortalCard({
   section,
   index,
-  featured = false,
 }: {
   section: (typeof sections)[0];
   index: number;
-  featured?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -83,6 +96,21 @@ function PortalCard({
   const rotY = useTransform(mx, [-0.5, 0.5], ['-10deg', '10deg']);
   const accent = accentMap[section.id] ?? '#3a9e6e';
   const label  = labelMap[section.id]  ?? '';
+
+  const layout = layoutPattern[index % layoutPattern.length];
+  
+  const isLarge =
+      layout.col.includes("col-span-2") &&
+      layout.row.includes("row-span-2");
+  
+  const isWide =
+      layout.col.includes("col-span-2") &&
+      !layout.row.includes("row-span-2");
+  
+  const isTall =
+      !layout.col.includes("col-span-2") &&
+      layout.row.includes("row-span-2");
+  
 
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -106,7 +134,16 @@ function PortalCard({
       onMouseLeave={onMouseLeave}
       onClick={() => navigate(`${base}/realm/${section.id}`)}
       style={{ perspective: 900 }}
-      className={`relative cursor-pointer group ${featured ? 'h-[420px] sm:h-[480px]' : 'h-72 sm:h-80'}`}
+      className={`
+      relative
+      group
+      cursor-pointer
+      col-span-1
+      row-span-1
+      ${layout.col}
+      ${layout.row}
+      h-full
+      `}
     >
       <motion.div
         style={{ rotateX: rotX, rotateY: rotY, transformStyle: 'preserve-3d' }}
@@ -145,7 +182,17 @@ function PortalCard({
         {/* Content */}
         <motion.div
           style={{ translateZ: '30px' }}
-          className="absolute inset-0 z-10 flex flex-col justify-end p-5 md:p-6"
+          className={`
+          absolute inset-0 z-10
+          flex flex-col justify-end
+          ${
+              isLarge
+                  ? "p-8"
+                  : isTall
+                  ? "p-7"
+                  : "p-5 md:p-6"
+          }
+          `}
         >
           {/* Category badge */}
           <div className="flex items-center gap-2 mb-3">
@@ -160,7 +207,13 @@ function PortalCard({
 
           <h3
             className="font-serif text-[#f4ecd8] leading-tight mb-2"
-            style={{ fontSize: featured ? 'clamp(1.5rem, 2.5vw, 2rem)' : 'clamp(1.1rem, 2vw, 1.4rem)' }}
+            style={{
+                fontSize: isLarge
+                    ? "clamp(1.7rem,2.7vw,2.2rem)"
+                    : isWide
+                    ? "clamp(1.3rem,2vw,1.6rem)"
+                    : "clamp(1.1rem,2vw,1.35rem)"
+            }}
           >
             {section.title}
           </h3>
@@ -169,7 +222,21 @@ function PortalCard({
           <motion.p
             animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 12 }}
             transition={{ duration: 0.35 }}
-            className="text-xs md:text-sm text-[#f4ecd8]/65 font-sans leading-relaxed line-clamp-2"
+            className={`
+            text-xs md:text-sm
+            text-[#f4ecd8]/65
+            font-sans
+            leading-relaxed
+            ${
+                isLarge
+                    ? "line-clamp-5"
+                    : isTall
+                    ? "line-clamp-4"
+                    : isWide
+                    ? "line-clamp-3"
+                    : "line-clamp-2"
+            }
+            `}
           >
             {section.desc}
           </motion.p>
@@ -201,9 +268,6 @@ function PortalCard({
 }
 
 export function PortalGrid() {
-  // Magazine layout: featured first 2 items span more, rest in grid
-  const featured = sections.slice(0, 2);
-  const rest      = sections.slice(2);
 
   return (
     <section id="realms" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[#020d08] relative border-t border-[#0d2d1e]">
@@ -234,18 +298,25 @@ export function PortalGrid() {
           </motion.p>
         </div>
 
-        {/* Featured row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          {featured.map((s, i) => (
-            <PortalCard key={s.id} section={s} index={i} featured />
-          ))}
-        </div>
-
-        {/* Main grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
-          {rest.map((s, i) => (
-            <PortalCard key={s.id} section={s} index={i + 2} />
-          ))}
+        <div
+            className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-5
+            auto-rows-[170px]
+            gap-4
+            grid-flow-dense
+            "
+        >
+            {sections.map((section, index) => (
+                <PortalCard
+                    key={section.id}
+                    section={section}
+                    index={index}
+                />
+            ))}
         </div>
 
         {/* Bottom label */}
