@@ -14,12 +14,30 @@ const facts = [
   'Harihareshwar is called the Kashi of the South — one of four sacred seats',
   'Sawantwadi\'s lacquerware wooden toys hold a Geographical Indication status',
   'Devbagh Beach near Karwar is accessible only by boat — making it worth the journey',
-];
 
+  // ── New facts — added with the newer realms ──
+  'The Konkan Railway crosses over 2,000 bridges and 91 tunnels along its 740 km route',
+  'Konkani is spoken in more than a dozen distinct dialects across the coast',
+  'Chaul and Rajapur were thriving Arab trading ports centuries before Bombay existed',
+  'Portuguese rule in parts of the Konkan lasted over 450 years — Europe\'s longest colonial presence in India',
+  'Some coastal towns host a temple, a church and a dargah within a single kilometre',
+  'The monsoon here can bring over 3,000 mm of rain between June and September',
+  'Wedding mandaps along the coast are still built from coconut fronds and areca leaves',
+  'Ratnagiri Fort holds the preserved cell where Savarkar spent years in exile',
+  'Lokmanya Tilak, architect of "Swaraj is my birthright," was born in Ratnagiri',
+  'Malvan\'s reefs make it one of India\'s most underrated scuba diving destinations',
+  'Traditional Konkani wadas are being turned into homestays across the coast',
+  'Laterite plateaus atop the Ghats are remnants of ancient Deccan Trap lava flows',
+  'Konkani diaspora communities still cook sol kadhi exactly as their grandmothers did',
+  'Sacred groves, or deverai, have been protected by belief alone for centuries',
+  'Koli fisherwomen tie their sarees in a distinctive knot suited for hauling nets',
+  'Dawn fish auctions on Konkan beaches follow rhythms older than any market clock',
+  'Konkan was once home to over 300 forts guarding its coastline and river mouths',
+  'The poet Keshavsuta, father of modern Marathi poetry, was born in Malgund near Ratnagiri',
+];
 export function MarqueeTicker({ className = '' }: { className?: string }) {
   // Duplicate for seamless loop
   const items = [...facts, ...facts];
-
   return (
     <div
       className={`relative w-full overflow-hidden bg-[#020d08] border-y border-[#0d2d1e] py-3 ${className}`}
@@ -27,7 +45,6 @@ export function MarqueeTicker({ className = '' }: { className?: string }) {
       {/* Fade edges */}
       <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#020d08] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#020d08] to-transparent z-10 pointer-events-none" />
-
       <div
         className="flex gap-0 whitespace-nowrap"
         style={{
@@ -44,7 +61,6 @@ export function MarqueeTicker({ className = '' }: { className?: string }) {
           </span>
         ))}
       </div>
-
       <style>{`
         @keyframes marquee {
           from { transform: translateX(0); }
