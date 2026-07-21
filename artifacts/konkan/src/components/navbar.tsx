@@ -10,22 +10,32 @@ const megaCategories = [
   {
     label: 'Heritage & Culture',
     color: '#c17f3a',
-    ids: ['history', 'culture', 'art', 'music', 'festivals', 'local-festivals', 'personalities'],
+    ids: [
+      'history', 'culture', 'art', 'music', 'festivals', 'local-festivals', 'personalities',
+      'language-dialects', 'religious-mosaic', 'weddings-rituals', 'handicrafts',
+      'freedom-struggle', 'maritime-history', 'textiles-costume', 'forts-of-konkan', 'literature-poets',
+    ],
   },
   {
     label: 'Nature & Ecology',
     color: '#3a9e6e',
-    ids: ['geography', 'ecology', 'flora-fauna', 'beaches'],
+    ids: [
+      'geography', 'ecology', 'flora-fauna', 'beaches',
+      'monsoon', 'geology-coastline', 'sacred-groves', 'wildlife-sanctuaries',
+    ],
   },
   {
     label: 'Life & Sustenance',
     color: '#d45f2a',
-    ids: ['cuisine', 'village', 'agriculture'],
+    ids: ['cuisine', 'village', 'agriculture', 'fishing-traditions'],
   },
   {
     label: 'Travel & Discovery',
     color: '#2a8fb5',
-    ids: ['tourism', 'ecotourism', 'hidden-gems', 'adventure'],
+    ids: [
+      'tourism', 'ecotourism', 'hidden-gems', 'adventure',
+      'konkan-railway', 'water-sports', 'homestays', 'diaspora',
+    ],
   },
 ];
 
@@ -156,7 +166,7 @@ export function Navbar() {
               <div className="max-w-[1400px] mx-auto px-8 md:px-14 py-10 pb-12">
                 {/* Top label */}
                 <p className="text-[9px] tracking-[0.5em] uppercase font-sans text-[#f4ecd8]/25 mb-8">
-                  18 realms of the konkan coast
+                  {sections.length} realms of the konkan coast
                 </p>
 
                 {/* Category columns */}
