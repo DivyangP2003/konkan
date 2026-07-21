@@ -33,7 +33,7 @@ export function StorySection() {
             className="absolute inset-0 z-10 rounded-sm overflow-hidden group"
           >
             <img 
-              src="/src/assets/fishing-village.jpg" 
+              src="/assets/fishing-village.jpg" 
               alt="Konkan Fishing Village" 
               className="w-full h-full object-cover shadow-2xl group-hover:scale-105 transition-transform duration-1000"
             />
@@ -47,7 +47,7 @@ export function StorySection() {
             className="absolute -bottom-10 -left-4 md:-left-12 w-[75%] md:w-3/5 h-2/3 z-20 overflow-hidden group shadow-2xl border-4 md:border-8 border-background rounded-sm"
           >
             <img 
-              src="/src/assets/spice-plantation.jpg" 
+              src="/assets/spice-plantation.jpg" 
               alt="Spice Plantation" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
             />
