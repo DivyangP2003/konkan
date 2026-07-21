@@ -18,16 +18,19 @@ export function Hero3D() {
       {/* Background Video */}
       {/* ===================== */}
 
-      <video
+    <video
         autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         className="absolute inset-0 h-full w-full object-cover"
-      >
-        <source src="assets/videos/hero.mp4" type="video/mp4" />
-      </video>
+    >
+        <source
+            src="https://res.cloudinary.com/wgwu1ii3/video/upload/f_auto,q_auto/v1784647176/hero_v2lw3u.mp4"
+            type="video/mp4"
+        />
+    </video>
 
       {/* ===================== */}
       {/* Dark Overlay */}
