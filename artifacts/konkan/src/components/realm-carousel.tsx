@@ -22,6 +22,28 @@ const categoryLabels: Record<string, string> = {
   'flora-fauna': 'FLORA & FAUNA',
   beaches: 'OCEAN',
   personalities: 'PERSONALITIES',
+
+  // ── New realms — batch A ──
+  'konkan-railway': 'JOURNEYS',
+  'language-dialects': 'CULTURE',
+  'maritime-history': 'HERITAGE',
+  'religious-mosaic': 'CULTURE',
+  monsoon: 'LANDSCAPES',
+  'weddings-rituals': 'CELEBRATION',
+  handicrafts: 'CRAFT',
+  'freedom-struggle': 'HERITAGE',
+  'water-sports': 'ADVENTURE',
+  homestays: 'TOURISM',
+  'geology-coastline': 'LANDSCAPES',
+  diaspora: 'LEGACIES',
+
+  // ── New realms — batch B ──
+  'wildlife-sanctuaries': 'FLORA & FAUNA',
+  'forts-of-konkan': 'HERITAGE',
+  'textiles-costume': 'CRAFT',
+  'fishing-traditions': 'VILLAGE LIFE',
+  'sacred-groves': 'ECOLOGY',
+  'literature-poets': 'PERSONALITIES',
 };
 
 const categoryAccents: Record<string, string> = {
@@ -43,6 +65,28 @@ const categoryAccents: Record<string, string> = {
   'flora-fauna': '#3a9e6e',
   beaches: '#2a8fb5',
   personalities: '#c17f3a',
+
+  // ── New realms — batch A ──
+  'konkan-railway': '#2a8fb5',
+  'language-dialects': '#c17f3a',
+  'maritime-history': '#2a8fb5',
+  'religious-mosaic': '#a04e7a',
+  monsoon: '#3a9e6e',
+  'weddings-rituals': '#a04e7a',
+  handicrafts: '#c17f3a',
+  'freedom-struggle': '#c17f3a',
+  'water-sports': '#d45f2a',
+  homestays: '#3a9e6e',
+  'geology-coastline': '#3a9e6e',
+  diaspora: '#c17f3a',
+
+  // ── New realms — batch B ──
+  'wildlife-sanctuaries': '#3a9e6e',
+  'forts-of-konkan': '#c17f3a',
+  'textiles-costume': '#a04e7a',
+  'fishing-traditions': '#2a8fb5',
+  'sacred-groves': '#3a9e6e',
+  'literature-poets': '#c17f3a',
 };
 
 export function RealmCarousel() {
