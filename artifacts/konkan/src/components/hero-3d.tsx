@@ -269,5 +269,3 @@ export function Hero3D() {
     </div>
   );
 }
-
-this is hero section, it is looking good but see my webiste is about konkan
