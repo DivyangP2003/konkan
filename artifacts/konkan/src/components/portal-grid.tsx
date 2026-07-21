@@ -11,6 +11,28 @@ const accentMap: Record<string, string> = {
   tourism: '#2a8fb5', agriculture: '#3a9e6e', ecology: '#3a9e6e',
   ecotourism: '#3a9e6e', 'hidden-gems': '#2a8fb5', adventure: '#d45f2a',
   'flora-fauna': '#3a9e6e', beaches: '#2a8fb5', personalities: '#c17f3a',
+
+  // ── New realms — batch A ──
+  'konkan-railway': '#2a8fb5',
+  'language-dialects': '#c17f3a',
+  'maritime-history': '#2a8fb5',
+  'religious-mosaic': '#a04e7a',
+  monsoon: '#3a9e6e',
+  'weddings-rituals': '#a04e7a',
+  handicrafts: '#c17f3a',
+  'freedom-struggle': '#c17f3a',
+  'water-sports': '#d45f2a',
+  homestays: '#3a9e6e',
+  'geology-coastline': '#3a9e6e',
+  diaspora: '#c17f3a',
+
+  // ── New realms — batch B ──
+  'wildlife-sanctuaries': '#3a9e6e',
+  'forts-of-konkan': '#c17f3a',
+  'textiles-costume': '#a04e7a',
+  'fishing-traditions': '#2a8fb5',
+  'sacred-groves': '#3a9e6e',
+  'literature-poets': '#c17f3a',
 };
 
 const labelMap: Record<string, string> = {
@@ -20,6 +42,28 @@ const labelMap: Record<string, string> = {
   tourism: 'Travel', agriculture: 'Farm', ecology: 'Ecology',
   ecotourism: 'Eco', 'hidden-gems': 'Secret', adventure: 'Thrill',
   'flora-fauna': 'Wildlife', beaches: 'Ocean', personalities: 'Legacy',
+
+  // ── New realms — batch A ──
+  'konkan-railway': 'Journey',
+  'language-dialects': 'Language',
+  'maritime-history': 'Maritime',
+  'religious-mosaic': 'Faith',
+  monsoon: 'Monsoon',
+  'weddings-rituals': 'Rituals',
+  handicrafts: 'Craft',
+  'freedom-struggle': 'Freedom',
+  'water-sports': 'Water',
+  homestays: 'Stay',
+  'geology-coastline': 'Geology',
+  diaspora: 'Diaspora',
+
+  // ── New realms — batch B ──
+  'wildlife-sanctuaries': 'Wildlife',
+  'forts-of-konkan': 'Forts',
+  'textiles-costume': 'Textile',
+  'fishing-traditions': 'Fishing',
+  'sacred-groves': 'Sacred',
+  'literature-poets': 'Poetry',
 };
 
 function PortalCard({
@@ -173,7 +217,7 @@ export function PortalGrid() {
             viewport={{ once: true }}
           >
             <p className="text-[10px] tracking-[0.4em] uppercase text-[#3a9e6e] font-sans mb-3">
-              18 Worlds Within One Coast
+              {sections.length} Worlds Within One Coast
             </p>
             <h2 className="text-4xl md:text-6xl font-serif text-[#f4ecd8] leading-none">
               Realms of <span className="italic text-[#3a9e6e]">Konkan</span>
