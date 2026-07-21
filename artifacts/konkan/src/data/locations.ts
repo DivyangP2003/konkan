@@ -3,7 +3,7 @@ export interface Location {
   name: string;
   region: string;
   tagline: string;
-  coords: { x: number; y: number }; // SVG coordinates in 320×620 viewBox
+  coords: { x: number; y: number }; // SVG coordinates in 380×760 viewBox (matches KonkanSVGMap)
   image: string;
   description: string;
   highlights: string[];
@@ -22,6 +22,18 @@ export const locations: Location[] = [
       'Dahanu is the quiet northern threshold of Konkan — where endless chikoo orchards perfume the breeze and the Bohri community has kept its ancient sea-trading traditions intact. The white sands of Bordi Beach stretch uninterrupted, watched over by century-old fishing hamlets.',
     highlights: ['Bordi Beach', 'Chikoo orchards', 'Bohri Muslim heritage'],
     category: 'culture',
+  },
+  {
+    id: 'vasai',
+    name: 'Vasai',
+    region: 'Palghar, Maharashtra',
+    tagline: 'Ruins of the Portuguese North',
+    coords: { x: 56, y: 95 },
+    image: '/src/assets/temple-carvings.jpg',
+    description:
+      'Long before Bombay rose to prominence, Vasai (Bassein) was the Portuguese Empire\'s crown jewel on this coast — a fortified city of churches, convents, and grand houses. Today its massive fort walls stand reclaimed by banyan roots and silence, a ruin still telling of the empire that once ruled from here.',
+    highlights: ['Vasai Fort ruins', 'Portuguese-era churches', 'Banyan-choked ramparts'],
+    category: 'heritage',
   },
   {
     id: 'alibaug',
@@ -58,6 +70,30 @@ export const locations: Location[] = [
       'Where the holy river Savitri meets the Arabian Sea, Harihareshwar sits at the confluence of the divine and the elemental. Black volcanic cliffs plunge into thundering surf. The ancient Harihareshwar temple, cut into the clifftop, is known as the Kashi of the South.',
     highlights: ['Harihareshwar Temple', 'Black rock cliffs', 'Shrivardhan Beach'],
     category: 'heritage',
+  },
+  {
+    id: 'shrivardhan',
+    name: 'Shrivardhan',
+    region: 'Raigad, Maharashtra',
+    tagline: 'Peshwa Roots by the Sea',
+    coords: { x: 78, y: 248 },
+    image: '/src/assets/coastal-landscape.jpg',
+    description:
+      'Birthplace of the first Peshwa, Balaji Vishwanath, Shrivardhan pairs a quiet historical weight with one of the most laid-back beaches on the northern Konkan coast. Casuarina trees line the shore, and the town moves at the pace of the tide rather than the clock.',
+    highlights: ['Shrivardhan Beach', 'Peshwa heritage', 'Casuarina groves'],
+    category: 'beach',
+  },
+  {
+    id: 'diveagar',
+    name: 'Diveagar',
+    region: 'Raigad, Maharashtra',
+    tagline: 'Golden Sands & Buried Gold',
+    coords: { x: 82, y: 262 },
+    image: '/src/assets/coastal-landscape.jpg',
+    description:
+      'Diveagar\'s wide, golden beach became briefly famous when a farmer unearthed a hoard of gold coins in his backyard — but its real treasure is the hush of its coconut groves and a shoreline that still sees olive ridley turtles nest each winter.',
+    highlights: ['Diveagar Beach', 'Suvarna Ganesh Temple', 'Turtle nesting site'],
+    category: 'nature',
   },
   {
     id: 'dapoli',
@@ -120,6 +156,30 @@ export const locations: Location[] = [
     category: 'culture',
   },
   {
+    id: 'devgad',
+    name: 'Devgad',
+    region: 'Sindhudurg, Maharashtra',
+    tagline: 'The Other Alphonso Coast',
+    coords: { x: 116, y: 442 },
+    image: '/src/assets/spice-plantation.jpg',
+    description:
+      'Devgad mangoes are quietly considered by connoisseurs to rival — some say surpass — the Ratnagiri Alphonso, grown on hillsides that catch the sea breeze at just the right angle. A 17th-century fort and lighthouse watch over the harbour below.',
+    highlights: ['Devgad Alphonso orchards', 'Devgad Fort', 'Lighthouse point'],
+    category: 'culture',
+  },
+  {
+    id: 'kunkeshwar',
+    name: 'Kunkeshwar',
+    region: 'Sindhudurg, Maharashtra',
+    tagline: 'The Somnath of the Konkan',
+    coords: { x: 120, y: 452 },
+    image: '/src/assets/temple-carvings.jpg',
+    description:
+      'An ancient Shiva temple stands almost at the water\'s edge here, its stone shikhara catching the last light of the day as waves break just metres from the sanctum. Pilgrims and travelers alike come as much for the setting as the deity.',
+    highlights: ['Kunkeshwar Temple', 'Beachfront sanctum', 'Quiet pilgrim town'],
+    category: 'heritage',
+  },
+  {
     id: 'malvan',
     name: 'Malvan',
     region: 'Sindhudurg, Maharashtra',
@@ -165,6 +225,18 @@ export const locations: Location[] = [
     description:
       'Vengurla is one of Konkan\'s most beautiful secrets. Its lighthouse is among the tallest on the western coast, its beaches are pristine and isolated, and its cashew distilleries produce a fiery local spirit with the character of the land itself. The town is utterly unhurried.',
     highlights: ['Vengurla Lighthouse', 'Sagareshwar Beach', 'Cashew feni distilleries'],
+    category: 'beach',
+  },
+  {
+    id: 'redi',
+    name: 'Redi',
+    region: 'Sindhudurg, Maharashtra',
+    tagline: 'The Coast\'s Quiet Last Word',
+    coords: { x: 152, y: 528 },
+    image: '/src/assets/ocean-cliffs.jpg',
+    description:
+      'Redi marks the last stretch of Maharashtra\'s coast before Goa begins — a sleepy beach town with a striking white Ganesh temple on a headland and the ruins of a small hill fort behind it. Iron-ore red earth gives the town its name and its distinctive soil colour.',
+    highlights: ['Redi Beach', 'Yashwantgad Fort', 'White Ganesh temple'],
     category: 'beach',
   },
   {
