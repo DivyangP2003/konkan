@@ -52,56 +52,6 @@ export function Hero3D() {
         }}
       />
 
-      {/* ===================== */}
-      {/* Hero Text */}
-      {/* ===================== */}
-
-      <motion.div
-        style={{ y: textY, opacity }}
-        className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
-      >
-        <motion.p
-          initial={{ opacity: 0, letterSpacing: "0.6em" }}
-          animate={{ opacity: 1, letterSpacing: "0.4em" }}
-          transition={{ duration: 1.4, delay: 0.3 }}
-          className="mb-6 text-xs uppercase tracking-[0.4em] text-white/70 sm:text-sm"
-        >
-          The Jewel of India's West Coast
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 1.2,
-            delay: 0.5,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          className="text-[clamp(4rem,14vw,11rem)] font-serif font-light tracking-[0.15em] text-white"
-          style={{
-            textShadow:
-              "0 0 50px rgba(0,0,0,0.7), 0 6px 30px rgba(0,0,0,0.9)",
-          }}
-        >
-          KONKAN
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.9 }}
-          className="mt-6 text-base uppercase tracking-[0.25em] text-white/80 sm:text-xl"
-        >
-          India's Best Kept Secret
-        </motion.p>
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          className="mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-orange-300 to-transparent"
-        />
-      </motion.div>
 
       {/* ===================== */}
       {/* Discover Indicator */}
