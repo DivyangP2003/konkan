@@ -350,7 +350,7 @@ export function Navbar() {
               <a
                 href="/#carousel"
                 onClick={() => setDrawerOpen(false)}
-                className="mt-10 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#020d08] bg-[#3a9e6e] py-4 transition-colors"
+                className="mt-10 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#FFFFFF] bg-[#3a9e6e] py-4 transition-colors"
               >
                 Begin Journey
               </a>
