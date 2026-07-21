@@ -165,7 +165,7 @@ export function Navbar() {
           <a
             href="/#carousel"
             onClick={() => setMegaOpen(false)}
-            className="hidden lg:flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#020d08] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
+            className="hidden lg:flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
           >
             Begin Journey
           </a>
@@ -350,7 +350,7 @@ export function Navbar() {
               <a
                 href="/#carousel"
                 onClick={() => setDrawerOpen(false)}
-                className="mt-10 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#FFFFFF] bg-[#3a9e6e] py-4 transition-colors"
+                className="mt-10 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] py-4 transition-colors"
               >
                 Begin Journey
               </a>
