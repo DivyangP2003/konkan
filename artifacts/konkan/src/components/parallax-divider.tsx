@@ -105,7 +105,7 @@ export function ParallaxDivider() {
   );
 
   return (
-    <section ref={ref} id="culture" className="relative min-h-[70vh] md:min-h-[90vh] overflow-hidden flex items-center justify-center py-16">
+    <section ref={ref} id="culture" className="relative overflow-hidden py-24 md:py-32">
       <motion.div
         style={{ y }}
         className="absolute inset-0 z-0 scale-[1.2]"
