@@ -316,7 +316,7 @@ export function KonkanMap() {
             </h2>
           </div>
           <p className="text-[#f4ecd8]/45 font-sans text-sm max-w-xs leading-relaxed">
-            720 kilometres of coastline. 16 notable stops. Click any marker to explore.
+            720 kilometres of coastline. {locations.length} notable stops. Click any marker to explore.
           </p>
         </motion.div>
         <div className="mt-6 h-[1px] bg-gradient-to-r from-[#3a9e6e]/40 via-[#3a9e6e]/10 to-transparent" />
