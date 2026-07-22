@@ -411,6 +411,45 @@ export default function RealmPage() {
                 </div>
               </section>
             )}
+            {/* ── DID YOU KNOW ────────────────────────────────────────── */}
+            {content.didYouKnow && content.didYouKnow.length > 0 && (
+              <section className="py-16 md:py-24 px-8 md:px-16 border-t border-[#0d2d1e]">
+                <div className="max-w-7xl mx-auto">
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-10 font-sans text-[9px] tracking-[0.38em] uppercase"
+                    style={{ color: accent }}
+                  >
+                    Did You Know
+                  </motion.p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                    {content.didYouKnow.map((fact, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-40px' }}
+                        transition={{ duration: 0.6, delay: i * 0.1 }}
+                        className="flex gap-5"
+                      >
+                        <span
+                          className="font-serif italic text-2xl shrink-0 select-none"
+                          style={{ color: accent }}
+                        >
+                          ✦
+                        </span>
+                        <p className="font-sans text-base text-[#f4ecd8]/70 leading-relaxed">
+                          {fact}
+                        </p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+        
           </motion.div>
         )}
 
@@ -474,6 +513,66 @@ export default function RealmPage() {
                 </div>
               )}
 
+              {/* Best time to visit */}
+              {content.bestTime && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="mt-20 flex items-center gap-6 p-8 md:p-10 border border-[#0d2d1e]"
+                >
+                  <span className="font-serif italic text-3xl shrink-0" style={{ color: accent }}>◐</span>
+                  <div>
+                    <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#f4ecd8]/30 mb-2">
+                      Best Time to Visit
+                    </p>
+                    <p className="font-serif text-lg md:text-xl text-[#f4ecd8]/85">
+                      {content.bestTime}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Local tip */}
+              {content.localTip && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="mt-8 p-8 md:p-10 border-l-2"
+                  style={{ borderColor: accent }}
+                >
+                  <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#f4ecd8]/30 mb-3">
+                    Local Tip
+                  </p>
+                  <p className="font-serif italic text-lg text-[#f4ecd8]/85 leading-relaxed">
+                    {content.localTip}
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Warnings */}
+              {content.warnings && content.warnings.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="mt-8 p-8 md:p-10 border border-[#3a1f1f] bg-[#1a0d0d]/40"
+                >
+                  <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#e8a87c]/70 mb-4">
+                    Good to Know
+                  </p>
+                  <div className="space-y-3">
+                    {content.warnings.map((w, i) => (
+                      <p key={i} className="font-sans text-sm text-[#f4ecd8]/65 leading-relaxed">
+                        ⚠ {w}
+                      </p>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              
               {/* Best time to visit */}
               {content.keyFacts && (
                 <motion.div
