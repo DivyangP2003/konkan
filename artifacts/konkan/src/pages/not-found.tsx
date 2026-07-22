@@ -42,103 +42,78 @@ export default function NotFound() {
       />
 
       {/* Content */}
-      <section className="relative z-20 flex h-full items-center">
-
+      <section className="relative z-20 flex h-full items-center justify-center px-6">
+      
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 0.9,
-          }}
-          className="ml-10 max-w-xl md:ml-24 lg:ml-32"
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl rounded-3xl bg-black/15 px-10 py-12 text-center backdrop-blur-sm"
         >
-
-          <div className="mb-6 flex items-center gap-3">
-
-            <div className="h-px w-16 bg-[#D7C3A2]/40" />
-
-            <Compass
-              size={18}
-              className="text-[#D7C3A2]/70"
-            />
-
-            <div className="h-px w-16 bg-[#D7C3A2]/40" />
-
-          </div>
-
+      
           <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: .2 }}
-            className="font-serif text-[130px] leading-none tracking-tight text-[#F7E9D2]"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="font-serif text-[140px] leading-none tracking-tight text-[#F7E9D2]"
           >
             404
           </motion.h1>
-
+      
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: .35 }}
+            transition={{ delay: 0.2 }}
             className="mt-2 font-serif text-5xl text-[#F7E9D2]"
           >
             Lost in Konkan?
           </motion.h2>
-
+      
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: .45 }}
-            className="mt-6 max-w-lg text-lg leading-8 text-[#F7E9D2]/75"
+            transition={{ delay: 0.35 }}
+            className="mx-auto mt-7 max-w-xl text-lg leading-9 text-[#F7E9D2]/80"
           >
             Every memorable journey takes a wrong turn.
             <br />
             The path you followed seems to have disappeared
+            <br />
             into the moonlit forests of Konkan.
           </motion.p>
-
+      
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: .55 }}
-            className="mt-10 flex flex-wrap gap-5"
+            transition={{ delay: 0.5 }}
+            className="mt-10 flex flex-wrap items-center justify-center gap-5"
           >
-
+      
             <Link href="/">
-              <button className="group flex items-center gap-2 rounded-full bg-[#7B2E25] px-7 py-3 text-[#F7E9D2] transition-all duration-300 hover:bg-[#8D382D]">
-
-                Explore Konkan
-
-                <ArrowRight
-                  size={18}
-                  className="transition group-hover:translate-x-1"
-                />
-
+              <button className="group rounded-full bg-[#7A2F27] px-8 py-3 text-[#F7E9D2] transition-all duration-300 hover:bg-[#8F392F] hover:scale-105">
+      
+                <span className="flex items-center gap-2">
+                  Explore Konkan
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </span>
+      
               </button>
             </Link>
-
+      
             <button
               onClick={() => window.history.back()}
-              className="rounded-full border border-white/20 bg-black/20 px-7 py-3 text-[#F7E9D2]/80 backdrop-blur-md transition hover:border-white/40 hover:bg-black/35 hover:text-[#F7E9D2]"
+              className="rounded-full border border-white/20 bg-black/20 px-8 py-3 text-[#F7E9D2]/80 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:text-[#F7E9D2]"
             >
               Go Back
             </button>
-
+      
           </motion.div>
-
-          <div className="mt-14 flex items-center gap-3">
-
-            <div className="h-px w-24 bg-[#D7C3A2]/25" />
-
-            <div className="text-[#D7C3A2]/60">
-              ✦
-            </div>
-
-            <div className="h-px w-24 bg-[#D7C3A2]/25" />
-
-          </div>
-
+      
         </motion.div>
-
+      
       </section>
 
     </main>
