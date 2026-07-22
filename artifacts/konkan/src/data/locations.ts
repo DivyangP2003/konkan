@@ -29,7 +29,7 @@ export const locations: Location[] = [
     region: 'Palghar, Maharashtra',
     tagline: 'Ruins of the Portuguese North',
     coords: { x: 56, y: 95 },
-    image: '/assets/	vasai-fort.jpg',
+    image: '/assets/vasai-fort.jpg',
     description:
       'Long before Bombay rose to prominence, Vasai (Bassein) was the Portuguese Empire\'s crown jewel on this coast — a fortified city of churches, convents, and grand houses. Today its massive fort walls stand reclaimed by banyan roots and silence, a ruin still telling of the empire that once ruled from here.',
     highlights: ['Vasai Fort ruins', 'Portuguese-era churches', 'Banyan-choked ramparts'],
