@@ -83,7 +83,7 @@ export function Footer() {
         <div className="flex items-center gap-6 text-[10px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/22">
           <a href={`${base}/#discover`} className="hover:text-[#f4ecd8]/55 transition-colors">Story</a>
           <a href={`${base}/#map`} className="hover:text-[#f4ecd8]/55 transition-colors">Map</a>
-          <a href={`${base}/#realms`} className="hover:text-[#f4ecd8]/55 transition-colors">Realms</a>
+          <Link href={`${base}/explore`} className="hover:text-[#f4ecd8]/55 transition-colors">Browse All Realms</Link>
         </div>
       </div>
     </footer>
