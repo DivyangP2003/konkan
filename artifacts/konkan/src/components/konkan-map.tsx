@@ -464,16 +464,16 @@ export function KonkanMap() {
                     </span>
                   ))}
 
-                  <a
-                    href={`/#realms`}
+                  <Link
+                    href={`${base}/place/${selected.id}`}
                     className="ml-auto flex items-center gap-2 text-[10px] font-sans tracking-[0.25em] uppercase transition-all duration-300 hover:gap-3"
                     style={{ color }}
                   >
-                    Explore Konkan
+                    View Full Profile
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
                       <path d="M0 5h12M8 1l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
             </motion.div>
