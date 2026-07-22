@@ -131,7 +131,7 @@ export function RealmCarousel() {
   };
 
   return (
-    <section id="carousel" className="relative w-full overflow-hidden bg-[#020d08]" style={{ height: '80vh', minHeight: 480 }}>
+    <section id="carousel" className="relative w-full overflow-hidden bg-[#020d08]" style={{ height: '90vh', minHeight: 540 }}>
 
       {/* Slides */}
       <AnimatePresence initial={false} custom={direction} mode="sync">
