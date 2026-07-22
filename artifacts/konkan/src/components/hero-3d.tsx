@@ -39,67 +39,6 @@ export function Hero3D() {
         }}
       />
 
-      {/* ── Hero Text ──────────────────────────────────────────────── */}
-      <motion.div
-        style={{ y: textY, opacity }}
-        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
-      >
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, letterSpacing: "0.6em" }}
-          animate={{ opacity: 1, letterSpacing: "0.42em" }}
-          transition={{ delay: 0.6, duration: 1.4, ease: "easeOut" }}
-          className="mb-6 font-sans text-[10px] md:text-[11px] uppercase text-[#f4ecd8]/75"
-          style={{ letterSpacing: "0.42em" }}
-        >
-          Blessed with Nature's Richest Treasures
-        </motion.p>
-
-        {/* Main Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif text-[19vw] sm:text-[16vw] md:text-[13vw] lg:text-[11vw] leading-none tracking-tight text-[#800020]"
-          style={{ textShadow: "0 4px 40px rgba(0,0,0,0.55)" }}
-        >
-          KONKAN
-        </motion.h1>
-
-        {/* Marathi Tagline */}
-        <motion.p
-          style={{ y: taglineY }}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 1, ease: "easeOut" }}
-          className="mt-4 font-serif italic text-base md:text-lg lg:text-xl text-[#f4ecd8]/72"
-        >
-          येवा&thinsp;,&thinsp; ताक‑भात खावा&thinsp;,&thinsp; अन् आपलोच घर समजा&thinsp;!
-        </motion.p>
-
-        {/* Divider */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.9 }}
-          className="mt-8 mb-8 h-[1px] w-20 origin-center bg-[#f4ecd8]/30"
-        />
-
-        {/* CTA */}
-        <motion.a
-          href="#discover"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="pointer-events-auto inline-flex items-center gap-3 border border-[#f4ecd8]/25 bg-[#f4ecd8]/6 px-8 py-3 font-sans text-[10px] tracking-[0.32em] uppercase text-[#f4ecd8]/80 backdrop-blur-sm transition-all duration-500 hover:border-[#f4ecd8]/50 hover:bg-[#f4ecd8]/12 hover:text-[#f4ecd8]"
-        >
-          Begin Journey
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
-            <path d="M0 5h14M9 1l5 4-5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.a>
-      </motion.div>
-
       {/* ── Scroll Indicator ───────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0 }}
