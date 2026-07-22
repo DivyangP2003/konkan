@@ -1,6 +1,6 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { sections } from '@/data/sections';
-import { useState, useRef } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 
 const accentMap: Record<string, string> = {
@@ -37,6 +37,49 @@ const labelMap: Record<string, string> = {
   'sacred-groves': 'Sacred', 'literature-poets': 'Poetry',
 };
 
+/* ── Category groups — same grouping used in the navbar mega-menu and
+   the /explore page, kept local per this codebase's existing convention
+   of each component holding its own copy of these small maps. ────────── */
+const categories = [
+  {
+    id: 'heritage-culture',
+    label: 'Heritage & Culture',
+    color: '#c17f3a',
+    ids: [
+      'history', 'culture', 'art', 'music', 'festivals', 'local-festivals', 'personalities',
+      'language-dialects', 'religious-mosaic', 'weddings-rituals', 'handicrafts',
+      'freedom-struggle', 'maritime-history', 'textiles-costume', 'forts-of-konkan', 'literature-poets',
+    ],
+  },
+  {
+    id: 'nature-ecology',
+    label: 'Nature & Ecology',
+    color: '#3a9e6e',
+    ids: [
+      'geography', 'ecology', 'flora-fauna', 'beaches',
+      'monsoon', 'geology-coastline', 'sacred-groves', 'wildlife-sanctuaries',
+    ],
+  },
+  {
+    id: 'life-sustenance',
+    label: 'Life & Sustenance',
+    color: '#d45f2a',
+    ids: ['cuisine', 'village', 'agriculture', 'fishing-traditions'],
+  },
+  {
+    id: 'travel-discovery',
+    label: 'Travel & Discovery',
+    color: '#2a8fb5',
+    ids: [
+      'tourism', 'ecotourism', 'hidden-gems', 'adventure',
+      'konkan-railway', 'water-sports', 'homestays', 'diaspora',
+    ],
+  },
+];
+
+const categoryOfId: Record<string, (typeof categories)[0]> = {};
+categories.forEach(cat => cat.ids.forEach(id => { categoryOfId[id] = cat; }));
+
 const layoutPattern = [
   { col: 'md:col-span-2', row: 'md:row-span-2' },
   { col: '',              row: 'md:row-span-2' },
@@ -72,7 +115,6 @@ function PortalCard({
   const layout  = layoutPattern[index % layoutPattern.length];
   const isLarge = layout.col.includes('col-span-2') && layout.row.includes('row-span-2');
   const isWide  = layout.col.includes('col-span-2') && !layout.row.includes('row-span-2');
-  const isTall  = !layout.col.includes('col-span-2') && layout.row.includes('row-span-2');
 
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -85,6 +127,7 @@ function PortalCard({
 
   return (
     <motion.div
+      layout
       ref={cardRef}
       className={`relative overflow-hidden cursor-pointer ${layout.col} ${layout.row}`}
       style={{
@@ -102,9 +145,9 @@ function PortalCard({
       }}
       onClick={() => navigate(`${base}/realm/${section.id}`)}
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: (index % 12) * 0.04 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4, delay: (index % 12) * 0.03 }}
     >
       {/* Background image */}
       <div className="absolute inset-0 overflow-hidden">
@@ -171,13 +214,27 @@ function PortalCard({
 }
 
 export function PortalGrid() {
+  const [activeCat, setActiveCat] = useState<string>('all');
+  const [query, setQuery] = useState('');
+
+  const filtered = useMemo(() => {
+    return sections.filter(s => {
+      const inCat = activeCat === 'all' || categoryOfId[s.id]?.id === activeCat;
+      const q = query.trim().toLowerCase();
+      const inQuery = q === '' ||
+        s.title.toLowerCase().includes(q) ||
+        s.desc.toLowerCase().includes(q);
+      return inCat && inQuery;
+    });
+  }, [activeCat, query]);
+
   return (
     <section
       id="realms"
       className="py-20 md:py-28 px-4 md:px-8 bg-[#020d08] relative overflow-hidden"
     >
       {/* Section header */}
-      <div className="max-w-7xl mx-auto mb-12 md:mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6 px-4">
+      <div className="max-w-7xl mx-auto mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6 px-4">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -200,16 +257,81 @@ export function PortalGrid() {
           transition={{ delay: 0.2 }}
           className="text-sm text-[#f4ecd8]/40 font-sans max-w-sm leading-relaxed md:text-right"
         >
-          Each realm is a doorway into a different facet of the same extraordinary land. Step through any one of them.
+          Each realm is a doorway into a different facet of the same extraordinary land. Filter by world, or search for what draws you in.
         </motion.p>
       </div>
 
+      {/* Filter bar: category pills + search */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.15 }}
+        className="max-w-7xl mx-auto mb-10 px-4 flex flex-col md:flex-row md:items-center gap-4 md:gap-6"
+      >
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setActiveCat('all')}
+            className="px-4 py-2 text-[9px] font-sans tracking-[0.22em] uppercase border transition-colors duration-300"
+            style={
+              activeCat === 'all'
+                ? { borderColor: '#f4ecd8', color: '#020d08', backgroundColor: '#f4ecd8' }
+                : { borderColor: 'rgba(244,236,216,0.18)', color: 'rgba(244,236,216,0.55)' }
+            }
+          >
+            All ({sections.length})
+          </button>
+          {categories.map(cat => {
+            const count = sections.filter(s => categoryOfId[s.id]?.id === cat.id).length;
+            const isActive = activeCat === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCat(cat.id)}
+                className="px-4 py-2 text-[9px] font-sans tracking-[0.22em] uppercase border transition-colors duration-300"
+                style={
+                  isActive
+                    ? { borderColor: cat.color, color: '#020d08', backgroundColor: cat.color }
+                    : { borderColor: `${cat.color}40`, color: `${cat.color}cc` }
+                }
+              >
+                {cat.label} ({count})
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="relative md:ml-auto md:w-64">
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search realms…"
+            aria-label="Search realms"
+            className="w-full bg-transparent border border-[#0d2d1e] focus:border-[#3a9e6e]/50 outline-none px-4 py-2 text-sm font-sans text-[#f4ecd8]/85 placeholder:text-[#f4ecd8]/25 transition-colors duration-300"
+          />
+        </div>
+      </motion.div>
+
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 auto-rows-[170px] gap-3 md:gap-4 grid-flow-dense max-w-[1600px] mx-auto">
-        {sections.map((section, index) => (
-          <PortalCard key={section.id} section={section} index={index} />
-        ))}
-      </div>
+      {filtered.length === 0 ? (
+        <div className="text-center py-20">
+          <p className="font-serif text-xl text-[#f4ecd8]/40 italic">
+            No realms match "{query}".
+          </p>
+        </div>
+      ) : (
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 auto-rows-[170px] gap-3 md:gap-4 grid-flow-dense max-w-[1600px] mx-auto"
+        >
+          <AnimatePresence mode="popLayout">
+            {filtered.map((section, index) => (
+              <PortalCard key={section.id} section={section} index={index} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      )}
 
       {/* Bottom label */}
       <motion.div
@@ -221,7 +343,9 @@ export function PortalGrid() {
       >
         <div className="h-[1px] w-16 bg-[#3a9e6e]/15" />
         <span className="text-[10px] tracking-[0.35em] uppercase font-sans text-[#f4ecd8]/20">
-          {sections.length} Realms of Konkan
+          {filtered.length === sections.length
+            ? `${sections.length} Realms of Konkan`
+            : `Showing ${filtered.length} of ${sections.length} Realms`}
         </span>
         <div className="h-[1px] w-16 bg-[#3a9e6e]/15" />
       </motion.div>
