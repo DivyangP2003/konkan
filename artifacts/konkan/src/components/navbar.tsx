@@ -135,6 +135,27 @@ export function Navbar() {
               )}
             </button>
 
+            <Link
+              href={`${base}/explore`}
+              onClick={() => setMegaOpen(false)}
+              className={cn(
+                'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
+                scrolled || megaOpen
+                  ? 'text-[#800020]'
+                  : 'text-[#f4ecd8]/85 hover:text-white'
+              )}
+            >
+              All Realms
+              <span
+                className={cn(
+                  'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
+                  scrolled || megaOpen
+                    ? 'bg-[#800020]'
+                    : 'bg-[#f4ecd8]'
+                )}
+              />
+            </Link>
+
             {primaryLinks.map(({ label, href }) => (
               <a
                 key={href}
@@ -243,8 +264,8 @@ export function Navbar() {
                   <p className="text-[10px] text-[#f4ecd8]/25 font-sans tracking-[0.2em] uppercase">
                     Explore all facets of the Konkan coast
                   </p>
-                  <a
-                    href="/#realms"
+                  <Link
+                    href={`${base}/explore`}
                     onClick={() => setMegaOpen(false)}
                     className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#3a9e6e] hover:text-[#4ab57e] transition-colors duration-200 flex items-center gap-2"
                   >
@@ -252,7 +273,7 @@ export function Navbar() {
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
                       <path d="M0 5h12M8 1l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -274,6 +295,13 @@ export function Navbar() {
 
               {/* Primary links */}
               <div className="flex flex-col gap-1 mb-8">
+                <Link
+                  href={`${base}/explore`}
+                  onClick={() => setDrawerOpen(false)}
+                  className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
+                >
+                  All Realms
+                </Link>
                 {primaryLinks.map(({ label, href }) => (
                   <a
                     key={href}
