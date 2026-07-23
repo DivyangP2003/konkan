@@ -91,6 +91,7 @@ export function Navbar() {
   }, [location]);
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const isLight = scrolled || megaOpen;
 
   return (
     <>
@@ -99,36 +100,32 @@ export function Navbar() {
         ref={megaRef}
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
-          scrolled || megaOpen
+          isLight
             ? 'bg-[#f7f2eb]/95 backdrop-blur-xl border-b border-[#d8c8bb] shadow-[0_4px_60px_rgba(0,0,0,0.12)]'
             : 'bg-gradient-to-b from-black/45 via-black/20 to-transparent'
         )}
       >
-        <div className="flex items-center justify-between px-6 md:px-14 py-4 md:py-5">
+        <div className="flex items-center justify-between gap-4 px-6 md:px-14 py-4 md:py-5">
 
           {/* Logo */}
           <Link
             href={`${base}/`}
             className={cn(
               'text-[28px] font-serif tracking-[0.18em] font-light select-none shrink-0 z-10 transition-colors duration-500',
-              scrolled || megaOpen
-                ? 'text-[#800020]'
-                : 'text-[#f4ecd8]'
+              isLight ? 'text-[#800020]' : 'text-[#f4ecd8]'
             )}
           >
             K.
           </Link>
 
-          {/* Desktop centre links */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Desktop nav links (center) */}
+          <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {/* Explore mega trigger */}
             <button
               onClick={() => setMegaOpen(o => !o)}
               className={cn(
                 'flex items-center gap-1.5 px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-all duration-300 group relative',
-                scrolled || megaOpen
-                  ? 'text-[#800020]'
-                  : 'text-[#f4ecd8]/85 hover:text-white'
+                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
               )}
             >
               Explore
@@ -136,14 +133,12 @@ export function Navbar() {
                 <ChevronDown size={11} strokeWidth={2} />
               </motion.span>
               {megaOpen && (
-                <span 
+                <span
                   className={cn(
-                  "absolute bottom-0 left-4 right-4 h-[1px]",
-                  scrolled || megaOpen
-                    ? "bg-[#800020]"
-                    : "bg-[#f4ecd8]"
-                )}
-                  />
+                    'absolute bottom-0 left-4 right-4 h-[1px]',
+                    isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
+                  )}
+                />
               )}
             </button>
 
@@ -152,18 +147,14 @@ export function Navbar() {
               onClick={() => setMegaOpen(false)}
               className={cn(
                 'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                scrolled || megaOpen
-                  ? 'text-[#800020]'
-                  : 'text-[#f4ecd8]/85 hover:text-white'
+                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
               )}
             >
               All Realms
               <span
                 className={cn(
                   'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
-                  scrolled || megaOpen
-                    ? 'bg-[#800020]'
-                    : 'bg-[#f4ecd8]'
+                  isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
                 )}
               />
             </Link>
@@ -175,70 +166,77 @@ export function Navbar() {
                 onClick={() => setMegaOpen(false)}
                 className={cn(
                   'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                  scrolled || megaOpen
-                    ? 'text-[#800020]'
-                    : 'text-[#f4ecd8]/85 hover:text-white'
+                  isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
                 )}
               >
                 {label}
-            
                 <span
                   className={cn(
                     'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
-                    scrolled || megaOpen
-                      ? 'bg-[#800020]'
-                      : 'bg-[#f4ecd8]'
+                    isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
                   )}
                 />
               </a>
             ))}
-            
+
             <Link
               href="/destinations"
-              className="text-sm font-medium transition-colors hover:text-primary"
+              className={cn(
+                'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
+                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
+              )}
             >
               {t('nav.destinations', 'Destinations')}
+              <span
+                className={cn(
+                  'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
+                  isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
+                )}
+              />
             </Link>
           </div>
-          {/* Language Switcher */}
-          <LanguageSwitcher />
-          
-          {/* Auth Buttons */}
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  {user.name || user.email}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => navigate('/my-trips')}>
-                  {t('nav.myTrips')}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut()}>
-                  {t('nav.signOut')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
-              {t('nav.signIn')}
-            </Button>
-          )}
-          {/* Desktop CTA */}
-          <a
-            href="/#carousel"
-            onClick={() => setMegaOpen(false)}
-            className="hidden lg:flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
-          >
-            Begin Journey
-          </a>
 
-          
+          {/* Desktop right cluster: language, auth, CTA */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <LanguageSwitcher />
+
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    {user.name || user.email}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate('/my-trips')}>
+                    {t('nav.myTrips')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    {t('nav.signOut')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+                {t('nav.signIn')}
+              </Button>
+            )}
+
+            <a
+              href="/#carousel"
+              onClick={() => setMegaOpen(false)}
+              className="flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
+            >
+              Begin Journey
+            </a>
+          </div>
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden text-[#f4ecd8]/80 hover:text-[#f4ecd8] p-1.5 transition-colors"
+            className={cn(
+              'lg:hidden p-1.5 transition-colors shrink-0',
+              isLight ? 'text-[#800020]/80 hover:text-[#800020]' : 'text-[#f4ecd8]/80 hover:text-[#f4ecd8]'
+            )}
             onClick={() => setDrawerOpen(o => !o)}
             aria-label="Menu"
           >
@@ -357,6 +355,13 @@ export function Navbar() {
                     {label}
                   </a>
                 ))}
+                <Link
+                  href="/destinations"
+                  onClick={() => setDrawerOpen(false)}
+                  className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
+                >
+                  {t('nav.destinations', 'Destinations')}
+                </Link>
               </div>
 
               <div className="h-[1px] bg-[#0d2d1e] mb-8" />
@@ -366,7 +371,7 @@ export function Navbar() {
                 Explore Realms
               </p>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mb-8">
                 {megaCategories.map((cat, ci) => (
                   <div key={cat.label}>
                     <button
@@ -419,11 +424,59 @@ export function Navbar() {
                 ))}
               </div>
 
+              <div className="h-[1px] bg-[#0d2d1e] mb-8" />
+
+              {/* Language + Auth */}
+              <div className="flex items-center justify-between mb-8">
+                <LanguageSwitcher />
+
+                {user ? (
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-[#f4ecd8]/70 font-sans">
+                      {user.name || user.email}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        signOut();
+                        setDrawerOpen(false);
+                      }}
+                    >
+                      {t('nav.signOut')}
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      navigate('/auth');
+                      setDrawerOpen(false);
+                    }}
+                  >
+                    {t('nav.signIn')}
+                  </Button>
+                )}
+              </div>
+
+              {user && (
+                <button
+                  onClick={() => {
+                    navigate('/my-trips');
+                    setDrawerOpen(false);
+                  }}
+                  className="font-serif text-xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 mb-6 block text-left w-full"
+                >
+                  {t('nav.myTrips')}
+                </button>
+              )}
+
               {/* CTA */}
               <a
                 href="/#carousel"
                 onClick={() => setDrawerOpen(false)}
-                className="mt-10 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] py-4 transition-colors"
+                className="mt-2 w-full flex items-center justify-center gap-2 text-[11px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] py-4 transition-colors"
               >
                 Begin Journey
               </a>
