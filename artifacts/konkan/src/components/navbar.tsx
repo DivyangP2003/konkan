@@ -4,6 +4,9 @@ import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sections } from '@/data/sections';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './language-switcher';
+import { useAuthStore } from '../stores/auth-store';
 
 // ── Realm categories for mega menu ─────────────────────────────────────────
 const megaCategories = [
@@ -54,6 +57,9 @@ export function Navbar() {
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
   const megaRef = useRef<HTMLDivElement>(null);
   const [location] = useLocation();
+  const { t } = useTranslation();
+  const { user, signOut } = useAuthStore();
+  const [, navigate] = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -180,8 +186,40 @@ export function Navbar() {
                 />
               </a>
             ))}
+            
+            <Link
+              href="/destinations"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              {t('nav.destinations', 'Destinations')}
+            </Link>
+            ))}
           </div>
-
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+          
+          {/* Auth Buttons */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  {user.name || user.email}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate('/my-trips')}>
+                  {t('nav.myTrips')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>
+                  {t('nav.signOut')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+              {t('nav.signIn')}
+            </Button>
+          )}
           {/* Desktop CTA */}
           <a
             href="/#carousel"
@@ -190,6 +228,8 @@ export function Navbar() {
           >
             Begin Journey
           </a>
+
+          
 
           {/* Mobile hamburger */}
           <button
