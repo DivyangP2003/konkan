@@ -18,7 +18,7 @@ import {
   type DestinationFilters,
 } from '../components/destination-filters';
 import { sampleDestinations, type Destination } from '../data/destinations';
-import { useNavigate } from 'wouter';
+import { useLocation } from 'wouter';
 
 const sortOptions = [
   { value: 'name', label: 'Name (A-Z)' },
@@ -29,7 +29,7 @@ const sortOptions = [
 
 export default function DestinationsPage() {
   const { t } = useTranslation();
-  const [, navigate] = useNavigate();
+  const [, navigate] = useLocation();
   
   const [searchQuery, setSearchQuery] = useState('');
   const [showMap, setShowMap] = useState(false);

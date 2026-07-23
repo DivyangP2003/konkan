@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'wouter';
+import { Link, useLocation} from 'wouter';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,7 +7,14 @@ import { sections } from '@/data/sections';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './language-switcher';
 import { useAuthStore } from '../stores/auth-store';
+import { Button } from '@/components/ui/button';
 
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 // ── Realm categories for mega menu ─────────────────────────────────────────
 const megaCategories = [
   {
@@ -56,10 +63,9 @@ export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
   const megaRef = useRef<HTMLDivElement>(null);
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const { t } = useTranslation();
   const { user, signOut } = useAuthStore();
-  const [, navigate] = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -193,7 +199,6 @@ export function Navbar() {
             >
               {t('nav.destinations', 'Destinations')}
             </Link>
-            ))}
           </div>
           {/* Language Switcher */}
           <LanguageSwitcher />
