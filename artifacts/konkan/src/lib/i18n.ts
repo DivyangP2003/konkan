@@ -1,12 +1,16 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
 
-// Translation resources
 const resources = {
+  // ============================================================================
+  // English
+  // ============================================================================
   en: {
     translation: {
+      // ------------------------------------------------------------------------
       // Navigation
+      // ------------------------------------------------------------------------
       'nav.home': 'Home',
       'nav.destinations': 'Destinations',
       'nav.stay': 'Stay',
@@ -19,10 +23,13 @@ const resources = {
       'nav.signIn': 'Sign In',
       'nav.signOut': 'Sign Out',
       'nav.myTrips': 'My Trips',
-      
-      // Destinations page
+
+      // ------------------------------------------------------------------------
+      // Destinations
+      // ------------------------------------------------------------------------
       'destinations.title': 'Explore Konkan Destinations',
-      'destinations.subtitle': 'Discover the beauty and diversity of Konkan region',
+      'destinations.subtitle':
+        'Discover the beauty and diversity of Konkan region',
       'destinations.search': 'Search destinations...',
       'destinations.filter': 'Filter',
       'destinations.sort': 'Sort by',
@@ -32,8 +39,10 @@ const resources = {
       'destinations.featured': 'Featured',
       'destinations.trending': 'Trending',
       'destinations.hidden': 'Hidden Gems',
-      
+
+      // ------------------------------------------------------------------------
       // Filters
+      // ------------------------------------------------------------------------
       'filter.region': 'Region',
       'filter.type': 'Type',
       'filter.difficulty': 'Difficulty',
@@ -41,26 +50,52 @@ const resources = {
       'filter.bestTime': 'Best Time',
       'filter.reset': 'Reset Filters',
       'filter.apply': 'Apply',
-      
+
+      // ------------------------------------------------------------------------
       // Regions
+      // ------------------------------------------------------------------------
       'region.north': 'North Konkan',
       'region.central': 'Central Konkan',
       'region.south': 'South Konkan',
-      
-      // Types
+
+      // ------------------------------------------------------------------------
+      // Destination Types
+      // ------------------------------------------------------------------------
       'type.beach': 'Beach',
       'type.fort': 'Fort',
       'type.temple': 'Temple',
       'type.hill': 'Hill Station',
       'type.village': 'Village',
       'type.city': 'City',
-      
+
+      // ------------------------------------------------------------------------
       // Difficulty
+      // ------------------------------------------------------------------------
       'difficulty.easy': 'Easy',
       'difficulty.moderate': 'Moderate',
       'difficulty.difficult': 'Difficult',
-      
+
+      // ------------------------------------------------------------------------
+      // Stay
+      // ------------------------------------------------------------------------
+      'stay.title': 'Where to Stay in Konkan',
+      'stay.subtitle': 'Find your perfect accommodation',
+
+      // ------------------------------------------------------------------------
+      // Food
+      // ------------------------------------------------------------------------
+      'food.title': 'Konkan Culinary Guide',
+      'food.subtitle': 'Discover authentic Konkani flavors',
+
+      // ------------------------------------------------------------------------
+      // Activities
+      // ------------------------------------------------------------------------
+      'activities.title': 'Things to Do in Konkan',
+      'activities.subtitle': 'Adventure, culture, and experiences',
+
+      // ------------------------------------------------------------------------
       // Common
+      // ------------------------------------------------------------------------
       'common.viewDetails': 'View Details',
       'common.learnMore': 'Learn More',
       'common.bookNow': 'Book Now',
@@ -76,9 +111,13 @@ const resources = {
       'common.update': 'Update',
     },
   },
+
+  // ============================================================================
+  // Konkani
+  // ============================================================================
   kn: {
     translation: {
-      // Navigation (Konkani - Add proper translations)
+      // Navigation
       'nav.home': 'घर',
       'nav.destinations': 'गंतव्य',
       'nav.stay': 'राहणे',
@@ -91,15 +130,20 @@ const resources = {
       'nav.signIn': 'साइन इन',
       'nav.signOut': 'साइन आउट',
       'nav.myTrips': 'माझे प्रवास',
-      
-      // Add more Konkani translations
+
+      // Destinations
       'destinations.title': 'कोंकण गंतव्य शोधा',
-      'destinations.subtitle': 'कोंकण प्रदेशाचे सौंदर्य आणि विविधता शोधा',
+      'destinations.subtitle':
+        'कोंकण प्रदेशाचे सौंदर्य आणि विविधता शोधा',
     },
   },
+
+  // ============================================================================
+  // Marathi
+  // ============================================================================
   mr: {
     translation: {
-      // Navigation (Marathi)
+      // Navigation
       'nav.home': 'मुख्यपृष्ठ',
       'nav.destinations': 'गंतव्ये',
       'nav.stay': 'राहण्याची सोय',
@@ -112,14 +156,20 @@ const resources = {
       'nav.signIn': 'साइन इन करा',
       'nav.signOut': 'साइन आउट करा',
       'nav.myTrips': 'माझे प्रवास',
-      
+
+      // Destinations
       'destinations.title': 'कोंकण गंतव्ये एक्सप्लोर करा',
-      'destinations.subtitle': 'कोंकण प्रदेशाचे सौंदर्य आणि विविधता शोधा',
+      'destinations.subtitle':
+        'कोंकण प्रदेशाचे सौंदर्य आणि विविधता शोधा',
     },
   },
+
+  // ============================================================================
+  // Hindi
+  // ============================================================================
   hi: {
     translation: {
-      // Navigation (Hindi)
+      // Navigation
       'nav.home': 'होम',
       'nav.destinations': 'गंतव्य',
       'nav.stay': 'ठहरना',
@@ -132,9 +182,11 @@ const resources = {
       'nav.signIn': 'साइन इन करें',
       'nav.signOut': 'साइन आउट करें',
       'nav.myTrips': 'मेरी यात्राएँ',
-      
+
+      // Destinations
       'destinations.title': 'कोंकण गंतव्यों का अन्वेषण करें',
-      'destinations.subtitle': 'कोंकण क्षेत्र की सुंदरता और विविधता की खोज करें',
+      'destinations.subtitle':
+        'कोंकण क्षेत्र की सुंदरता और विविधता की खोज करें',
     },
   },
 };
@@ -144,10 +196,13 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
+
     fallbackLng: 'en',
+
     interpolation: {
       escapeValue: false,
     },
+
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],

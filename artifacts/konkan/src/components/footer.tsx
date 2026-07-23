@@ -24,6 +24,15 @@ const navGroups = [
   },
 ];
 
+// ── Travel planning quick links ─────────────────────────────────────────────
+const travelPlanningLinks = [
+  { label: 'Destinations', href: '/destinations' },
+  { label: 'Where to Stay', href: '/stay' },
+  { label: 'Food Guide', href: '/food' },
+  { label: 'Activities', href: '/activities' },
+];
+const travelPlanningColor = '#b5842a';
+
 const sectionMap = Object.fromEntries(sections.map(s => [s.id, s]));
 
 export function Footer() {
@@ -32,7 +41,7 @@ export function Footer() {
   return (
     <footer className="bg-[#020a08] border-t border-[#0d2d1e]">
       {/* Top section */}
-      <div className="max-w-7xl mx-auto px-8 md:px-16 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+      <div className="max-w-7xl mx-auto px-8 md:px-16 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
         {/* Brand */}
         <div className="lg:col-span-1">
           <Link href={`${base}/`} className="font-serif text-[32px] tracking-[0.18em] text-[#800020] hover:text-[#a02040] transition-colors">
@@ -73,6 +82,28 @@ export function Footer() {
             </ul>
           </div>
         ))}
+
+        {/* Travel Planning */}
+        <div className="lg:col-span-1">
+          <p
+            className="mb-5 font-sans text-[9px] tracking-[0.35em] uppercase"
+            style={{ color: travelPlanningColor }}
+          >
+            Travel Planning
+          </p>
+          <ul className="space-y-2.5">
+            {travelPlanningLinks.map(({ label, href }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="font-sans text-xs text-[#f4ecd8]/40 hover:text-[#f4ecd8]/80 transition-colors"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Bottom bar */}

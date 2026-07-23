@@ -12,6 +12,10 @@ import { useEffect } from 'react';
 import { useAuthStore } from './stores/auth-store';
 import './lib/i18n';
 import DestinationsPage from './pages/destinations';
+import StayPage from './pages/stay';
+import FoodPage from './pages/food';
+import ActivitiesPage from './pages/activities';
+import AdminDashboard from './pages/admin/dashboard';
 
 
 const queryClient = new QueryClient();
@@ -26,6 +30,10 @@ function Router() {
       <Route path="/realm/:id" component={RealmPage} />
       <Route path="/place/:id" component={PlacePage} />
       <Route path="/destinations" component={DestinationsPage} />
+      <Route path="/stay" component={StayPage} />
+      <Route path="/food" component={FoodPage} />
+      <Route path="/activities" component={ActivitiesPage} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

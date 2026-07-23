@@ -57,6 +57,13 @@ const primaryLinks = [
   { label: 'Map',     href: '/#map'      },
 ];
 
+// ── Site links (wouter routes) shown after Destinations ────────────────────
+const siteLinks = [
+  { key: 'nav.stay',       fallback: 'Stay',       href: '/stay' },
+  { key: 'nav.food',       fallback: 'Food',       href: '/food' },
+  { key: 'nav.activities', fallback: 'Activities', href: '/activities' },
+];
+
 export function Navbar() {
   const [scrolled, setScrolled]   = useState(false);
   const [megaOpen, setMegaOpen]   = useState(false);
@@ -93,6 +100,19 @@ export function Navbar() {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const isLight = scrolled || megaOpen;
 
+  // Shared classes for a top-level nav link (desktop)
+  const navLinkClass = (extra?: string) =>
+    cn(
+      'relative px-3 py-2.5 text-[10.5px] tracking-[0.2em] uppercase font-sans transition-colors duration-300 group whitespace-nowrap',
+      isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white',
+      extra
+    );
+
+  const navUnderlineClass = cn(
+    'absolute bottom-0 left-3 right-3 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
+    isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
+  );
+
   return (
     <>
       {/* ── Main bar ─────────────────────────────────────────────────── */}
@@ -105,7 +125,7 @@ export function Navbar() {
             : 'bg-gradient-to-b from-black/45 via-black/20 to-transparent'
         )}
       >
-        <div className="flex items-center justify-between gap-4 px-6 md:px-14 py-4 md:py-5">
+        <div className="flex items-center justify-between gap-3 px-6 md:px-10 py-4 md:py-5">
 
           {/* Logo */}
           <Link
@@ -119,14 +139,11 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav links (center) */}
-          <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
             {/* Explore mega trigger */}
             <button
               onClick={() => setMegaOpen(o => !o)}
-              className={cn(
-                'flex items-center gap-1.5 px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-all duration-300 group relative',
-                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
-              )}
+              className={navLinkClass('flex items-center gap-1.5 relative')}
             >
               Explore
               <motion.span animate={{ rotate: megaOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
@@ -135,7 +152,7 @@ export function Navbar() {
               {megaOpen && (
                 <span
                   className={cn(
-                    'absolute bottom-0 left-4 right-4 h-[1px]',
+                    'absolute bottom-0 left-3 right-3 h-[1px]',
                     isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
                   )}
                 />
@@ -145,18 +162,10 @@ export function Navbar() {
             <Link
               href={`${base}/explore`}
               onClick={() => setMegaOpen(false)}
-              className={cn(
-                'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
-              )}
+              className={navLinkClass()}
             >
               All Realms
-              <span
-                className={cn(
-                  'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
-                  isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
-                )}
-              />
+              <span className={navUnderlineClass} />
             </Link>
 
             {primaryLinks.map(({ label, href }) => (
@@ -164,36 +173,32 @@ export function Navbar() {
                 key={href}
                 href={href}
                 onClick={() => setMegaOpen(false)}
-                className={cn(
-                  'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                  isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
-                )}
+                className={navLinkClass()}
               >
                 {label}
-                <span
-                  className={cn(
-                    'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
-                    isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
-                  )}
-                />
+                <span className={navUnderlineClass} />
               </a>
             ))}
 
-            <Link
-              href="/destinations"
-              className={cn(
-                'relative px-4 py-2.5 text-[11px] tracking-[0.22em] uppercase font-sans transition-colors duration-300 group',
-                isLight ? 'text-[#800020]' : 'text-[#f4ecd8]/85 hover:text-white'
-              )}
-            >
+            <Link href="/destinations" className={navLinkClass()}>
               {t('nav.destinations', 'Destinations')}
-              <span
-                className={cn(
-                  'absolute bottom-0 left-4 right-4 h-[1px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
-                  isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
-                )}
-              />
+              <span className={navUnderlineClass} />
             </Link>
+
+            {siteLinks.map(({ key, fallback, href }) => (
+              <Link key={href} href={href} className={navLinkClass()}>
+                {t(key, fallback)}
+                <span className={navUnderlineClass} />
+              </Link>
+            ))}
+
+            {/* Admin link - only show for admin users */}
+            {user && user.role === 'admin' && (
+              <Link href="/admin" className={navLinkClass()}>
+                Admin
+                <span className={navUnderlineClass} />
+              </Link>
+            )}
           </div>
 
           {/* Desktop right cluster: language, auth, CTA */}
@@ -362,6 +367,25 @@ export function Navbar() {
                 >
                   {t('nav.destinations', 'Destinations')}
                 </Link>
+                {siteLinks.map(({ key, fallback, href }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setDrawerOpen(false)}
+                    className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
+                  >
+                    {t(key, fallback)}
+                  </Link>
+                ))}
+                {user && user.role === 'admin' && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setDrawerOpen(false)}
+                    className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
+                  >
+                    Admin
+                  </Link>
+                )}
               </div>
 
               <div className="h-[1px] bg-[#0d2d1e] mb-8" />
