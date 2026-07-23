@@ -80,7 +80,7 @@
     "@react-three/fiber": "^9.6.1",
     "@types/three": "^0.185.1",
     "three": "^0.185.1",
-    "leaflet": "^1.9.4".
+    "leaflet": "^1.9.4",
     "react-leaflet": "^5.0.0"
   }
 }
