@@ -63,18 +63,6 @@ export function AuthDialog({ open, onOpenChange, defaultMode = 'signin' }: AuthD
     }
   };
 
-  const handleGoogle = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin },
-    });
-    if (error) {
-      setMessage({ kind: 'error', text: prettifyError(error.message) });
-      setLoading(false);
-    }
-  };
-
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) reset(); onOpenChange(o); }}>
       <DialogContent className="sm:max-w-md bg-[#020d08] border border-[#0d2d1e] text-[#f4ecd8] shadow-2xl">
@@ -157,22 +145,7 @@ export function AuthDialog({ open, onOpenChange, defaultMode = 'signin' }: AuthD
           </Button>
         </form>
 
-        <div className="flex items-center gap-3 my-2">
-          <div className="flex-1 h-px bg-[#0d2d1e]" />
-          <span className="text-[10px] tracking-[0.3em] uppercase text-[#f4ecd8]/40">or</span>
-          <div className="flex-1 h-px bg-[#0d2d1e]" />
-        </div>
-
-        <Button
-          type="button"
-          onClick={handleGoogle}
-          disabled={loading}
-          variant="outline"
-          className="w-full border-[#0d2d1e] text-[#f4ecd8] hover:bg-[#0d2d1e]/40"
-        >
-          Continue with Google
-        </Button>
-      </DialogContent>
+        </DialogContent>
     </Dialog>
   );
 }
