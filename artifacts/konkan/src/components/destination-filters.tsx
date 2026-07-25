@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { X, SlidersHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
@@ -30,9 +29,10 @@ interface DestinationFiltersSidebarProps {
 }
 
 function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebarProps) {
-  const { t } = useTranslation();
-
-  const toggleArrayFilter = (key: keyof Pick<DestinationFilters, 'regions' | 'types' | 'difficulties' | 'activities'>, value: string) => {
+  const toggleArrayFilter = (
+    key: keyof Pick<DestinationFilters, 'regions' | 'types' | 'difficulties' | 'activities'>,
+    value: string
+  ) => {
     const current = filters[key];
     const updated = current.includes(value)
       ? current.filter((v) => v !== value)
@@ -40,7 +40,9 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
     onChange({ ...filters, [key]: updated });
   };
 
-  const toggleBooleanFilter = (key: keyof Pick<DestinationFilters, 'featured' | 'trending' | 'hidden'>) => {
+  const toggleBooleanFilter = (
+    key: keyof Pick<DestinationFilters, 'featured' | 'trending' | 'hidden'>
+  ) => {
     onChange({ ...filters, [key]: !filters[key] });
   };
 
@@ -48,17 +50,15 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
     <div className="space-y-6">
       {/* Quick Filters */}
       <div>
-        <Label className="text-base font-semibold mb-3 block">{t('filter.quickFilters', 'Quick Filters')}</Label>
-        <div className="space-y-2">
+        <Label className="text-base font-semibold mb-3 block">Quick Filters</Label>
+        <div className="space-y-3">
           <div className="flex items-center space-x-2">
             <Checkbox
               id="featured"
               checked={filters.featured}
               onCheckedChange={() => toggleBooleanFilter('featured')}
             />
-            <label htmlFor="featured" className="text-sm cursor-pointer">
-              {t('destinations.featured')}
-            </label>
+            <label htmlFor="featured" className="text-sm cursor-pointer">Featured</label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -66,9 +66,7 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
               checked={filters.trending}
               onCheckedChange={() => toggleBooleanFilter('trending')}
             />
-            <label htmlFor="trending" className="text-sm cursor-pointer">
-              {t('destinations.trending')}
-            </label>
+            <label htmlFor="trending" className="text-sm cursor-pointer">Trending</label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -76,9 +74,7 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
               checked={filters.hidden}
               onCheckedChange={() => toggleBooleanFilter('hidden')}
             />
-            <label htmlFor="hidden" className="text-sm cursor-pointer">
-              {t('destinations.hidden')}
-            </label>
+            <label htmlFor="hidden" className="text-sm cursor-pointer">Hidden Gem</label>
           </div>
         </div>
       </div>
@@ -87,49 +83,53 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
 
       {/* Region Filter */}
       <div>
-        <Label className="text-base font-semibold mb-3 block">{t('filter.region')}</Label>
-        <div className="space-y-2">
-          {regionOptions.map((option) => (
-            <div key={option.value} className="flex items-center space-x-2">
-              <Checkbox
-                id={`region-${option.value}`}
-                checked={filters.regions.includes(option.value)}
-                onCheckedChange={() => toggleArrayFilter('regions', option.value)}
-              />
-              <label htmlFor={`region-${option.value}`} className="text-sm cursor-pointer">
-                {t(`region.${option.value}`, option.label)}
-              </label>
-            </div>
-          ))}
-        </div>
+        <Label className="text-base font-semibold mb-3 block">Region</Label>
+        <ScrollArea className="h-48">
+          <div className="space-y-2 pr-4">
+            {regionOptions.map((option) => (
+              <div key={option.value} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`region-${option.value}`}
+                  checked={filters.regions.includes(option.value)}
+                  onCheckedChange={() => toggleArrayFilter('regions', option.value)}
+                />
+                <label htmlFor={`region-${option.value}`} className="text-sm cursor-pointer">
+                  {option.label}
+                </label>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
 
       <Separator />
 
       {/* Type Filter */}
       <div>
-        <Label className="text-base font-semibold mb-3 block">{t('filter.type')}</Label>
-        <div className="space-y-2">
-          {typeOptions.map((option) => (
-            <div key={option.value} className="flex items-center space-x-2">
-              <Checkbox
-                id={`type-${option.value}`}
-                checked={filters.types.includes(option.value)}
-                onCheckedChange={() => toggleArrayFilter('types', option.value)}
-              />
-              <label htmlFor={`type-${option.value}`} className="text-sm cursor-pointer">
-                {t(`type.${option.value}`, option.label)}
-              </label>
-            </div>
-          ))}
-        </div>
+        <Label className="text-base font-semibold mb-3 block">Type</Label>
+        <ScrollArea className="h-48">
+          <div className="space-y-2 pr-4">
+            {typeOptions.map((option) => (
+              <div key={option.value} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`type-${option.value}`}
+                  checked={filters.types.includes(option.value)}
+                  onCheckedChange={() => toggleArrayFilter('types', option.value)}
+                />
+                <label htmlFor={`type-${option.value}`} className="text-sm cursor-pointer">
+                  {option.label}
+                </label>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
 
       <Separator />
 
       {/* Difficulty Filter */}
       <div>
-        <Label className="text-base font-semibold mb-3 block">{t('filter.difficulty')}</Label>
+        <Label className="text-base font-semibold mb-3 block">Difficulty</Label>
         <div className="space-y-2">
           {difficultyOptions.map((option) => (
             <div key={option.value} className="flex items-center space-x-2">
@@ -139,7 +139,7 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
                 onCheckedChange={() => toggleArrayFilter('difficulties', option.value)}
               />
               <label htmlFor={`difficulty-${option.value}`} className="text-sm cursor-pointer">
-                {t(`difficulty.${option.value}`, option.label)}
+                {option.label}
               </label>
             </div>
           ))}
@@ -150,7 +150,7 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
 
       {/* Activities Filter */}
       <div>
-        <Label className="text-base font-semibold mb-3 block">{t('filter.activities')}</Label>
+        <Label className="text-base font-semibold mb-3 block">Activities</Label>
         <ScrollArea className="h-48">
           <div className="space-y-2 pr-4">
             {activityOptions.map((option) => (
@@ -174,7 +174,7 @@ function FilterContent({ filters, onChange, onReset }: DestinationFiltersSidebar
       {/* Reset Button */}
       <Button onClick={onReset} variant="outline" className="w-full">
         <X className="w-4 h-4 mr-2" />
-        {t('filter.reset')}
+        Reset
       </Button>
     </div>
   );
@@ -199,14 +199,12 @@ export function DestinationFiltersSidebar(props: DestinationFiltersSidebarProps)
 
 // Mobile Sheet
 export function DestinationFiltersMobile(props: DestinationFiltersSidebarProps) {
-  const { t } = useTranslation();
-  
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="lg:hidden">
           <SlidersHorizontal className="w-4 h-4 mr-2" />
-          {t('destinations.filter')}
+          Filters
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80">

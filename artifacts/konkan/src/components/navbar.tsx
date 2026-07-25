@@ -1,21 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation} from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sections } from '@/data/sections';
-import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher } from './language-switcher';
-import { useAuthStore } from '../stores/auth-store';
+import { UserMenu } from './user-menu';
+import { AuthDialog } from './auth-dialog';
+import { useAuthStore } from '@/stores/auth-store';
 import { Button } from '@/components/ui/button';
-
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-// ── Realm categories for mega menu ─────────────────────────────────────────
+
 const megaCategories = [
   {
     label: 'Heritage & Culture',
@@ -49,30 +48,40 @@ const megaCategories = [
   },
 ];
 
-const sectionMap = Object.fromEntries(sections.map(s => [s.id, s]));
+const sectionMap = Object.fromEntries(sections.map((s) => [s.id, s]));
 
-// ── Primary nav items ───────────────────────────────────────────────────────
 const primaryLinks = [
-  { label: 'Story',   href: '/#discover' },
-  { label: 'Map',     href: '/#map'      },
+  { label: 'Story', href: '/#discover' },
+  { label: 'Map',   href: '/#map'      },
 ];
 
-// ── Site links (wouter routes) shown after Destinations ────────────────────
 const siteLinks = [
-  { key: 'nav.stay',       fallback: 'Stay',       href: '/stay' },
-  { key: 'nav.food',       fallback: 'Food',       href: '/food' },
-  { key: 'nav.activities', fallback: 'Activities', href: '/activities' },
+  { label: 'Stay',       href: '/stay' },
+  { label: 'Food',       href: '/food' },
+  { label: 'Activities', href: '/activities' },
 ];
 
-export function Navbar() {
-  const [scrolled, setScrolled]   = useState(false);
-  const [megaOpen, setMegaOpen]   = useState(false);
+interface NavbarProps {
+  onAuthRequired?: () => void;
+}
+
+export function Navbar({ onAuthRequired }: NavbarProps = {}) {
+  const [scrolled, setScrolled] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
   const [location, navigate] = useLocation();
-  const { t } = useTranslation();
   const { user, signOut } = useAuthStore();
+
+  const handleSignInClick = () => {
+    if (onAuthRequired) {
+      onAuthRequired();
+    } else {
+      setAuthOpen(true);
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -80,7 +89,6 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mega on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
@@ -91,7 +99,6 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Close menus on route change
   useEffect(() => {
     setMegaOpen(false);
     setDrawerOpen(false);
@@ -100,7 +107,6 @@ export function Navbar() {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const isLight = scrolled || megaOpen;
 
-  // Shared classes for a top-level nav link (desktop)
   const navLinkClass = (extra?: string) =>
     cn(
       'relative px-3 py-2.5 text-[10.5px] tracking-[0.2em] uppercase font-sans transition-colors duration-300 group whitespace-nowrap',
@@ -115,7 +121,6 @@ export function Navbar() {
 
   return (
     <>
-      {/* ── Main bar ─────────────────────────────────────────────────── */}
       <nav
         ref={megaRef}
         className={cn(
@@ -127,7 +132,6 @@ export function Navbar() {
       >
         <div className="flex items-center justify-between gap-3 px-6 md:px-10 py-4 md:py-5">
 
-          {/* Logo */}
           <Link
             href={`${base}/`}
             className={cn(
@@ -138,11 +142,9 @@ export function Navbar() {
             K.
           </Link>
 
-          {/* Desktop nav links (center) */}
           <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
-            {/* Explore mega trigger */}
             <button
-              onClick={() => setMegaOpen(o => !o)}
+              onClick={() => setMegaOpen((o) => !o)}
               className={navLinkClass('flex items-center gap-1.5 relative')}
             >
               Explore
@@ -150,49 +152,34 @@ export function Navbar() {
                 <ChevronDown size={11} strokeWidth={2} />
               </motion.span>
               {megaOpen && (
-                <span
-                  className={cn(
-                    'absolute bottom-0 left-3 right-3 h-[1px]',
-                    isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]'
-                  )}
-                />
+                <span className={cn('absolute bottom-0 left-3 right-3 h-[1px]', isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]')} />
               )}
             </button>
 
-            <Link
-              href={`${base}/explore`}
-              onClick={() => setMegaOpen(false)}
-              className={navLinkClass()}
-            >
+            <Link href={`${base}/explore`} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
               All Realms
               <span className={navUnderlineClass} />
             </Link>
 
             {primaryLinks.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={() => setMegaOpen(false)}
-                className={navLinkClass()}
-              >
+              <a key={href} href={href} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
                 {label}
                 <span className={navUnderlineClass} />
               </a>
             ))}
 
             <Link href="/destinations" className={navLinkClass()}>
-              {t('nav.destinations', 'Destinations')}
+              Destinations
               <span className={navUnderlineClass} />
             </Link>
 
-            {siteLinks.map(({ key, fallback, href }) => (
+            {siteLinks.map(({ label, href }) => (
               <Link key={href} href={href} className={navLinkClass()}>
-                {t(key, fallback)}
+                {label}
                 <span className={navUnderlineClass} />
               </Link>
             ))}
 
-            {/* Admin link - only show for admin users */}
             {user && user.role === 'admin' && (
               <Link href="/admin" className={navLinkClass()}>
                 Admin
@@ -201,31 +188,8 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Desktop right cluster: language, auth, CTA */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
-            <LanguageSwitcher />
-
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    {user.name || user.email}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => navigate('/my-trips')}>
-                    {t('nav.myTrips')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => signOut()}>
-                    {t('nav.signOut')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
-                {t('nav.signIn')}
-              </Button>
-            )}
+            <UserMenu onSignInClick={handleSignInClick} />
 
             <a
               href="/#carousel"
@@ -236,20 +200,18 @@ export function Navbar() {
             </a>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             className={cn(
               'lg:hidden p-1.5 transition-colors shrink-0',
               isLight ? 'text-[#800020]/80 hover:text-[#800020]' : 'text-[#f4ecd8]/80 hover:text-[#f4ecd8]'
             )}
-            onClick={() => setDrawerOpen(o => !o)}
+            onClick={() => setDrawerOpen((o) => !o)}
             aria-label="Menu"
           >
             {drawerOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
 
-        {/* ── Mega dropdown ─────────────────────────────────────────── */}
         <AnimatePresence>
           {megaOpen && (
             <motion.div
@@ -260,29 +222,22 @@ export function Navbar() {
               className="border-t border-[#0d2d1e]/60 bg-[#020d08]/98 backdrop-blur-2xl"
             >
               <div className="max-w-[1400px] mx-auto px-8 md:px-14 py-10 pb-12">
-                {/* Top label */}
                 <p className="text-[9px] tracking-[0.5em] uppercase font-sans text-[#f4ecd8]/25 mb-8">
                   {sections.length} realms of the konkan coast
                 </p>
 
-                {/* Category columns */}
                 <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 md:gap-10">
-                  {megaCategories.map(cat => (
+                  {megaCategories.map((cat) => (
                     <div key={cat.label}>
-                      {/* Category header */}
                       <div className="flex items-center gap-2 mb-5 pb-3 border-b border-[#0d2d1e]">
                         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
-                        <span
-                          className="text-[10px] tracking-[0.3em] uppercase font-sans font-medium"
-                          style={{ color: cat.color }}
-                        >
+                        <span className="text-[10px] tracking-[0.3em] uppercase font-sans font-medium" style={{ color: cat.color }}>
                           {cat.label}
                         </span>
                       </div>
 
-                      {/* Realm links */}
                       <div className="flex flex-col gap-1">
-                        {cat.ids.map(id => {
+                        {cat.ids.map((id) => {
                           const s = sectionMap[id];
                           if (!s) return null;
                           return (
@@ -292,10 +247,7 @@ export function Navbar() {
                               onClick={() => setMegaOpen(false)}
                               className="group flex items-center gap-3 py-2 px-1 rounded transition-all duration-200 hover:bg-[#0d2d1e]/60"
                             >
-                              <div
-                                className="w-[2px] h-4 rounded-full shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                                style={{ backgroundColor: cat.color }}
-                              />
+                              <div className="w-[2px] h-4 rounded-full shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ backgroundColor: cat.color }} />
                               <span className="text-[13px] font-sans text-[#f4ecd8]/60 group-hover:text-[#f4ecd8] transition-colors duration-200 leading-tight">
                                 {s.title}
                               </span>
@@ -307,7 +259,6 @@ export function Navbar() {
                   ))}
                 </div>
 
-                {/* Bottom bar */}
                 <div className="mt-10 pt-6 border-t border-[#0d2d1e] flex items-center justify-between">
                   <p className="text-[10px] text-[#f4ecd8]/25 font-sans tracking-[0.2em] uppercase">
                     Explore all facets of the Konkan coast
@@ -329,7 +280,6 @@ export function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* ── Mobile full-screen drawer ─────────────────────────────────── */}
       <AnimatePresence>
         {drawerOpen && (
           <motion.div
@@ -341,48 +291,25 @@ export function Navbar() {
           >
             <div className="min-h-full px-6 pb-16 pt-24">
 
-              {/* Primary links */}
               <div className="flex flex-col gap-1 mb-8">
-                <Link
-                  href={`${base}/explore`}
-                  onClick={() => setDrawerOpen(false)}
-                  className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
-                >
+                <Link href={`${base}/explore`} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                   All Realms
                 </Link>
                 {primaryLinks.map(({ label, href }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={() => setDrawerOpen(false)}
-                    className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
-                  >
+                  <a key={href} href={href} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                     {label}
                   </a>
                 ))}
-                <Link
-                  href="/destinations"
-                  onClick={() => setDrawerOpen(false)}
-                  className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
-                >
-                  {t('nav.destinations', 'Destinations')}
+                <Link href="/destinations" onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
+                  Destinations
                 </Link>
-                {siteLinks.map(({ key, fallback, href }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setDrawerOpen(false)}
-                    className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
-                  >
-                    {t(key, fallback)}
+                {siteLinks.map(({ label, href }) => (
+                  <Link key={href} href={href} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
+                    {label}
                   </Link>
                 ))}
                 {user && user.role === 'admin' && (
-                  <Link
-                    href="/admin"
-                    onClick={() => setDrawerOpen(false)}
-                    className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors"
-                  >
+                  <Link href="/admin" onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                     Admin
                   </Link>
                 )}
@@ -390,10 +317,7 @@ export function Navbar() {
 
               <div className="h-[1px] bg-[#0d2d1e] mb-8" />
 
-              {/* Realm categories accordion */}
-              <p className="text-[9px] tracking-[0.4em] uppercase text-[#f4ecd8]/25 mb-6">
-                Explore Realms
-              </p>
+              <p className="text-[9px] tracking-[0.4em] uppercase text-[#f4ecd8]/25 mb-6">Explore Realms</p>
 
               <div className="flex flex-col gap-2 mb-8">
                 {megaCategories.map((cat, ci) => (
@@ -404,10 +328,7 @@ export function Navbar() {
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cat.color }} />
-                        <span
-                          className="text-sm font-sans tracking-[0.15em] uppercase"
-                          style={{ color: cat.color }}
-                        >
+                        <span className="text-sm font-sans tracking-[0.15em] uppercase" style={{ color: cat.color }}>
                           {cat.label}
                         </span>
                       </div>
@@ -426,16 +347,11 @@ export function Navbar() {
                           className="overflow-hidden"
                         >
                           <div className="py-3 pl-5 flex flex-col gap-1">
-                            {cat.ids.map(id => {
+                            {cat.ids.map((id) => {
                               const s = sectionMap[id];
                               if (!s) return null;
                               return (
-                                <Link
-                                  key={id}
-                                  href={`${base}/realm/${id}`}
-                                  onClick={() => setDrawerOpen(false)}
-                                  className="font-serif text-xl text-[#f4ecd8]/60 hover:text-[#f4ecd8] py-1.5 transition-colors"
-                                >
+                                <Link key={id} href={`${base}/realm/${id}`} onClick={() => setDrawerOpen(false)} className="font-serif text-xl text-[#f4ecd8]/60 hover:text-[#f4ecd8] py-1.5 transition-colors">
                                   {s.title}
                                 </Link>
                               );
@@ -450,53 +366,37 @@ export function Navbar() {
 
               <div className="h-[1px] bg-[#0d2d1e] mb-8" />
 
-              {/* Language + Auth */}
               <div className="flex items-center justify-between mb-8">
-                <LanguageSwitcher />
+                <UserMenu onSignInClick={() => { handleSignInClick(); setDrawerOpen(false); }} />
 
                 {user ? (
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm text-[#f4ecd8]/70 font-sans">
-                      {user.name || user.email}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        signOut();
-                        setDrawerOpen(false);
-                      }}
-                    >
-                      {t('nav.signOut')}
-                    </Button>
-                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => { signOut(); setDrawerOpen(false); }}
+                  >
+                    Sign out
+                  </Button>
                 ) : (
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
-                      navigate('/auth');
-                      setDrawerOpen(false);
-                    }}
+                    onClick={() => { handleSignInClick(); setDrawerOpen(false); }}
                   >
-                    {t('nav.signIn')}
+                    Sign in
                   </Button>
                 )}
               </div>
 
               {user && (
                 <button
-                  onClick={() => {
-                    navigate('/my-trips');
-                    setDrawerOpen(false);
-                  }}
+                  onClick={() => { navigate('/wishlist'); setDrawerOpen(false); }}
                   className="font-serif text-xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 mb-6 block text-left w-full"
                 >
-                  {t('nav.myTrips')}
+                  My wishlist
                 </button>
               )}
 
-              {/* CTA */}
               <a
                 href="/#carousel"
                 onClick={() => setDrawerOpen(false)}
@@ -508,6 +408,8 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AuthDialog open={authOpen} onOpenChange={setAuthOpen} />
     </>
   );
 }

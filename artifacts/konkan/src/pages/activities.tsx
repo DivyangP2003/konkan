@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Search, Star, Clock, Users, Calendar, ArrowRight, Zap, Leaf, Mountain, Waves, Compass } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -175,8 +174,7 @@ function ActivityCard({ activity }: { activity: Activity }) {
 }
 
 export default function ActivitiesPage() {
-  const { t } = useTranslation();
-
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
