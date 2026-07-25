@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Search, Map as MapIcon, Grid3X3, Star, MapPin, Phone, ArrowRight, Wifi, Waves } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -188,8 +187,7 @@ function AccomCard({ accommodation, onContact }: { accommodation: Accommodation;
 }
 
 export default function StayPage() {
-  const { t } = useTranslation();
-
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [showMap, setShowMap] = useState(false);
   const [sortBy, setSortBy] = useState('name');

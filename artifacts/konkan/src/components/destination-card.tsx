@@ -1,74 +1,79 @@
-import { useTranslation } from 'react-i18next';
 import { MapPin, Star, TrendingUp, Eye, Compass } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { SaveButton } from './save-button';
 import type { Destination } from '../data/destinations';
 
 interface DestinationCardProps {
   destination: Destination;
   onClick?: () => void;
+  onAuthRequired?: () => void;
 }
 
-export function DestinationCard({ destination, onClick }: DestinationCardProps) {
-  const { t, i18n } = useTranslation();
-  
-  const displayName = i18n.language !== 'en' && destination.nameTranslations?.[i18n.language as 'kn' | 'mr' | 'hi']
-    ? destination.nameTranslations[i18n.language as 'kn' | 'mr' | 'hi']
-    : destination.name;
-
+export function DestinationCard({ destination, onClick, onAuthRequired }: DestinationCardProps) {
   return (
     <Card className="overflow-hidden group hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={onClick}>
       <div className="relative h-56 overflow-hidden">
         <img
           src={destination.images[0]}
-          alt={displayName}
+          alt={destination.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        
+
         <div className="absolute top-3 left-3 flex flex-wrap gap-2">
           {destination.featured && (
             <Badge className="bg-amber-500 hover:bg-amber-600">
               <Star className="w-3 h-3 mr-1" />
-              {t('destinations.featured')}
+              Featured
             </Badge>
           )}
           {destination.trending && (
             <Badge className="bg-green-500 hover:bg-green-600">
               <TrendingUp className="w-3 h-3 mr-1" />
-              {t('destinations.trending')}
+              Trending
             </Badge>
           )}
           {destination.hidden && (
             <Badge className="bg-purple-500 hover:bg-purple-600">
               <Eye className="w-3 h-3 mr-1" />
-              {t('destinations.hidden')}
+              Hidden Gem
             </Badge>
           )}
         </div>
 
         {destination.averageRating && (
-          <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1">
+          <div className="absolute top-3 right-14 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
             <span className="text-white text-sm font-semibold">{destination.averageRating}</span>
             <span className="text-white/70 text-xs">({destination.reviewCount})</span>
           </div>
         )}
+
+        <div className="absolute top-3 right-3">
+          <SaveButton
+            itemType="destination"
+            itemId={destination.id}
+            itemName={destination.name}
+            itemImage={destination.images[0]}
+            onAuthRequired={() => onAuthRequired?.()}
+          />
+        </div>
       </div>
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-1 line-clamp-1">{displayName}</h3>
+            <h3 className="text-xl font-bold mb-1 line-clamp-1">{destination.name}</h3>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4" />
-              <span className="capitalize">{t(`region.${destination.region}`)}</span>
+              <span className="capitalize">{destination.region}</span>
               <span>•</span>
-              <span className="capitalize">{t(`type.${destination.type}`)}</span>
+              <span className="capitalize">{destination.type}</span>
             </div>
           </div>
           <Badge variant="outline" className="capitalize">
-            {destination.difficulty && t(`difficulty.${destination.difficulty}`)}
+            {destination.difficulty || ''}
           </Badge>
         </div>
       </CardHeader>
@@ -77,7 +82,7 @@ export function DestinationCard({ destination, onClick }: DestinationCardProps) 
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
           {destination.description}
         </p>
-        
+
         <div className="flex flex-wrap gap-1.5">
           {destination.highlights.slice(0, 2).map((highlight, index) => (
             <Badge key={index} variant="secondary" className="text-xs">
@@ -98,7 +103,7 @@ export function DestinationCard({ destination, onClick }: DestinationCardProps) 
           <span>{destination.distanceFromMumbai} km from Mumbai</span>
         </div>
         <Button size="sm" onClick={onClick}>
-          {t('common.viewDetails')}
+          View Details
         </Button>
       </CardFooter>
     </Card>

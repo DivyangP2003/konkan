@@ -1,22 +1,17 @@
-import { useTranslation } from 'react-i18next';
 import { MapPin, Star, Clock, TrendingUp, Users, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { SaveButton } from './save-button';
 import type { Activity } from '../data/activities';
 
 interface ActivityCardProps {
   activity: Activity;
   onClick?: () => void;
+  onAuthRequired?: () => void;
 }
 
-export function ActivityCard({ activity, onClick }: ActivityCardProps) {
-  const { t, i18n } = useTranslation();
-  
-  const displayName = i18n.language !== 'en' && activity.nameTranslations?.[i18n.language as 'kn' | 'mr' | 'hi']
-    ? activity.nameTranslations[i18n.language as 'kn' | 'mr' | 'hi']
-    : activity.name;
-
+export function ActivityCard({ activity, onClick, onAuthRequired }: ActivityCardProps) {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'easy': return 'bg-green-500';
@@ -31,10 +26,10 @@ export function ActivityCard({ activity, onClick }: ActivityCardProps) {
       <div className="relative h-56 overflow-hidden">
         <img
           src={activity.images[0]}
-          alt={displayName}
+          alt={activity.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        
+
         <div className="absolute top-3 left-3 flex flex-wrap gap-2">
           {activity.featured && (
             <Badge className="bg-amber-500 hover:bg-amber-600">
@@ -47,7 +42,7 @@ export function ActivityCard({ activity, onClick }: ActivityCardProps) {
           </Badge>
         </div>
 
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
+        <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
           {activity.averageRating && (
             <div className="bg-black/70 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -57,13 +52,20 @@ export function ActivityCard({ activity, onClick }: ActivityCardProps) {
           <div className={`${getDifficultyColor(activity.difficulty)} rounded-full px-3 py-1 text-white text-xs font-semibold`}>
             {activity.difficulty.toUpperCase()}
           </div>
+          <SaveButton
+            itemType="activity"
+            itemId={activity.id}
+            itemName={activity.name}
+            itemImage={activity.images[0]}
+            onAuthRequired={() => onAuthRequired?.()}
+          />
         </div>
       </div>
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-1 line-clamp-1">{displayName}</h3>
+            <h3 className="text-xl font-bold mb-1 line-clamp-1">{activity.name}</h3>
             <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
@@ -83,7 +85,7 @@ export function ActivityCard({ activity, onClick }: ActivityCardProps) {
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
           {activity.description}
         </p>
-        
+
         <div className="flex items-center justify-between mb-3">
           {activity.price && (
             <div className="text-lg font-bold text-primary">
@@ -115,7 +117,7 @@ export function ActivityCard({ activity, onClick }: ActivityCardProps) {
           {activity.season.length > 2 && ` +${activity.season.length - 2}`}
         </div>
         <Button size="sm" onClick={onClick}>
-          {t('common.viewDetails')}
+          View Details
         </Button>
       </CardFooter>
     </Card>
