@@ -33,6 +33,14 @@ const travelPlanningLinks = [
 ];
 const travelPlanningColor = '#b5842a';
 
+// ── Culture, Heritage & Spiritual links ─────────────────────────────────────
+const deepDiveLinks = [
+  { label: 'Culture & Customs', href: '/culture' },
+  { label: 'Heritage & Monuments', href: '/heritage' },
+  { label: 'Spiritual & Sacred', href: '/spiritual' },
+];
+const deepDiveColor = '#c17f3a';
+
 const sectionMap = Object.fromEntries(sections.map(s => [s.id, s]));
 
 export function Footer() {
@@ -93,6 +101,25 @@ export function Footer() {
           </p>
           <ul className="space-y-2.5">
             {travelPlanningLinks.map(({ label, href }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="font-sans text-xs text-[#f4ecd8]/40 hover:text-[#f4ecd8]/80 transition-colors"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {/* Deep Dive */}
+          <p
+            className="mt-8 mb-5 font-sans text-[9px] tracking-[0.35em] uppercase"
+            style={{ color: deepDiveColor }}
+          >
+            Discover Konkan
+          </p>
+          <ul className="space-y-2.5">
+            {deepDiveLinks.map(({ label, href }) => (
               <li key={href}>
                 <Link
                   href={href}

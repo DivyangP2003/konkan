@@ -3,39 +3,42 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
+// Graceful fallback when env vars are not configured
+const isConfigured = !!(supabaseUrl && supabaseAnonKey);
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = isConfigured
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null as any;
 
 // ── Auth ────────────────────────────────────────────────────────────────────
 export const authHelpers = {
   signUp: async (email: string, password: string, name: string) => {
+    if (!isConfigured) return { data: null, error: { message: 'Auth not configured' } };
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { name },
-        emailRedirectTo: window.location.origin,
-      },
+      options: { data: { name }, emailRedirectTo: window.location.origin },
     });
     return { data, error };
   },
   signIn: async (email: string, password: string) => {
+    if (!isConfigured) return { data: null, error: { message: 'Auth not configured' } };
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     return { data, error };
   },
   signOut: async () => {
+    if (!isConfigured) return { error: null };
     const { error } = await supabase.auth.signOut();
     return { error };
   },
   getCurrentUser: async () => {
+    if (!isConfigured) return { user: null, error: null };
     const { data: { user }, error } = await supabase.auth.getUser();
     return { user, error };
   },
   onAuthStateChange: (callback: (user: any) => void) => {
-    return supabase.auth.onAuthStateChange((_event, session) => {
+    if (!isConfigured) return { data: { subscription: { unsubscribe: () => {} } } };
+    return supabase.auth.onAuthStateChange((_event: any, session: any) => {
       callback(session?.user ?? null);
     });
   },
@@ -58,14 +61,13 @@ const WISHLIST_TABLE = 'wishlists';
 
 export const wishlistHelpers = {
   list: async (userId: string) => {
+    if (!isConfigured) return { data: [], error: null };
     const { data, error } = await supabase
       .from(WISHLIST_TABLE)
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
-
     if (error) return { data: null, error };
-
     const normalised = (data as WishlistRow[] | null)?.map((r) => ({
       itemType: r.item_type,
       itemId: r.item_id,
@@ -75,30 +77,16 @@ export const wishlistHelpers = {
     }));
     return { data: normalised, error: null };
   },
-
-  add: async (
-    userId: string,
-    itemType: WishlistItemType,
-    itemId: string,
-    itemName: string,
-    itemImage?: string
-  ) => {
+  add: async (userId: string, itemType: WishlistItemType, itemId: string, itemName: string, itemImage?: string) => {
+    if (!isConfigured) return { error: null };
     const { error } = await supabase
       .from(WISHLIST_TABLE)
-      .upsert(
-        {
-          user_id: userId,
-          item_type: itemType,
-          item_id: itemId,
-          item_name: itemName,
-          item_image: itemImage || null,
-        },
-        { onConflict: 'user_id,item_type,item_id' }
-      );
+      .upsert({ user_id: userId, item_type: itemType, item_id: itemId, item_name: itemName, item_image: itemImage || null },
+        { onConflict: 'user_id,item_type,item_id' });
     return { error };
   },
-
   remove: async (userId: string, itemType: WishlistItemType, itemId: string) => {
+    if (!isConfigured) return { error: null };
     const { error } = await supabase
       .from(WISHLIST_TABLE)
       .delete()

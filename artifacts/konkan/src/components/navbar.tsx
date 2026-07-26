@@ -56,6 +56,9 @@ const primaryLinks = [
 ];
 
 const siteLinks = [
+  { label: 'Culture',    href: '/culture' },
+  { label: 'Heritage',   href: '/heritage' },
+  { label: 'Spiritual',  href: '/spiritual' },
   { label: 'Stay',       href: '/stay' },
   { label: 'Food',       href: '/food' },
   { label: 'Activities', href: '/activities' },
