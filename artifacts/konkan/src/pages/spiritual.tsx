@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { Sun, Route, ScrollText, MapPin, Star } from 'lucide-react';
+import { Sun, Route, ScrollText, MapPin, Star, Flame } from 'lucide-react';
 import {
   majorTemples,
+  additionalTemples,
   pilgrimageRoutes,
   rituals,
   spiritualMeta,
@@ -21,6 +22,7 @@ const ritualIconMap: Record<RitualIconKey, React.ReactNode> = {
   Sun: <Sun className="w-5 h-5" />,
   Star: <Star className="w-5 h-5" />,
   ScrollText: <ScrollText className="w-5 h-5" />,
+  Flame: <Flame className="w-5 h-5" />,
 };
 
 // ── Temple Card ───────────────────────────────────────────────────────────────
@@ -263,6 +265,18 @@ export default function SpiritualPage() {
             <p className="font-sans text-xs text-[#f4ecd8]/40 leading-relaxed max-w-2xl mb-12">{tabDescriptions.temples}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-10">
               {majorTemples.map((temple, idx) => <TempleCard key={temple.id} temple={temple} idx={idx} />)}
+            </div>
+
+            <div className="mt-20 p-8 border border-[#0d2d1e] bg-[#0d2d1e]/20">
+              <p className="text-[9px] tracking-[0.35em] uppercase font-sans text-[#d45f2a] mb-4">Also Worth Visiting</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {additionalTemples.map((t) => (
+                  <div key={t} className="flex items-center gap-2">
+                    <Sun className="w-3 h-3 text-[#d45f2a]/60 shrink-0" />
+                    <span className="font-sans text-xs text-[#f4ecd8]/50">{t}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.section>
         )}
