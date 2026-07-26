@@ -17,6 +17,9 @@ import FoodPage from './pages/food';
 import ActivitiesPage from './pages/activities';
 import AdminDashboard from './pages/admin/dashboard';
 import WishlistPage from './pages/wishlist';
+import CulturePage from './pages/culture';
+import HeritagePage from './pages/heritage';
+import SpiritualPage from './pages/spiritual';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,10 @@ function Router() {
       <Route path="/activities" component={ActivitiesPage} />
       <Route path="/wishlist" component={WishlistPage} />
       <Route path="/admin" component={AdminDashboard} />
+      {/* Phase 2 — Culture, Heritage & Spiritual */}
+      <Route path="/culture" component={CulturePage} />
+      <Route path="/heritage" component={HeritagePage} />
+      <Route path="/spiritual" component={SpiritualPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -47,7 +54,6 @@ function App() {
     initialize();
   }, [initialize]);
 
-  // Keep wishlist in sync with auth state
   useEffect(() => {
     if (user) loadWishlist(user.id);
     else clearWishlist();
