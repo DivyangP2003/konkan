@@ -1,5 +1,9 @@
 // ── Spiritual page data ───────────────────────────────────────────────────────
 // Edit this file to add, remove, or update content shown on the /spiritual page.
+// Content researched from temple trusts, gazetteers and coastal oral tradition —
+// Ganpatipule, Marleshwar, Kunkeshwar, Harihareshwar (Dakshin Kashi), the Suvarna
+// Ganesh of Diveagar, Vyadeshwar of Guhagar, and the grassroots ritual calendar
+// of Konkan's fishing and farming villages.
 
 export interface TempleRitual {
   name: string;
@@ -37,8 +41,8 @@ export interface PilgrimageRoute {
   color: string;
 }
 
-// 'Sun' | 'Star' | 'ScrollText' maps to Lucide icon names — resolved in the component.
-export type RitualIconKey = 'Sun' | 'Star' | 'ScrollText';
+// 'Sun' | 'Star' | 'ScrollText' | 'Flame' maps to Lucide icon names — resolved in the component.
+export type RitualIconKey = 'Sun' | 'Star' | 'ScrollText' | 'Flame';
 
 export interface Ritual {
   id: string;
@@ -122,6 +126,100 @@ export const majorTemples: Temple[] = [
     color: '#c17f3a',
     distanceFromMumbai: '510 km',
   },
+  {
+    id: 'harihareshwar',
+    title: 'Harihareshwar Temple',
+    subtitle: 'The Dakshin Kashi of the Konkan',
+    location: 'Harihareshwar, Raigad district',
+    deity: 'Trimurti — Brahma, Vishnu, Mahesh (with Parvati), in linga form',
+    period: 'Medieval; substantially rebuilt in 1723 by Peshwa Bajirao I',
+    image: '/assets/ocean-cliffs.jpg',
+    description:
+      "Called 'Dakshin Kashi' — the Kashi of the South — Harihareshwar sits where the Savitri river meets the Arabian Sea at the Bankot creek, ringed by four sacred hills named for Vishnu, Brahma, Shiva and Parvati. As at Varanasi, pilgrims follow a set order: Kalbhairav first, then Ganesh, Garuda and Nandi, and only then the sanctum, where Brahma, Vishnu and Shiva share a single triple linga. It served as the kuladevata (family deity) shrine for the Peshwas themselves.",
+    rituals: [
+      { name: 'Kalbhairav Darshan', time: 'First, always', desc: 'Guardian deity worshipped before the main sanctum, as in Varanasi' },
+      { name: 'Pradakshina', time: 'Any time', desc: 'Full circumambulation path around the temple, built by Chandrarao More' },
+      { name: 'Shravan Somvar Abhishek', time: 'Monsoon Mondays', desc: 'Weekly Shiva abhishek through the sacred month' },
+      { name: 'Mahashivratri Utsav', time: 'Annual', desc: 'The temple\'s largest gathering, with special aartis through the night' },
+    ],
+    legend:
+      "Sage Agastya's penance is said to have caused Shiva to appear here in linga form as a boon; Chhatrapati Shivaji Maharaj himself is recorded to have visited in 1674, and Peshwa queen Ramabai came here to pray for her ailing husband's health.",
+    prasad: 'Coconut and betel leaf (vida)',
+    bestTime: 'October to February; Shravan (Aug) for the Monday abhishek crowds',
+    color: '#800020',
+    distanceFromMumbai: '215 km',
+  },
+  {
+    id: 'suvarna-ganesh',
+    title: 'Suvarna Ganesh Temple',
+    subtitle: 'The Golden Ganesh of Diveagar',
+    location: 'Diveagar, Raigad district',
+    deity: 'Lord Ganesha (solid gold idol)',
+    period: 'Idol dated 300–1,000+ years; temple built 1997 onward',
+    image: '/assets/religious-mosaic.jpg',
+    description:
+      "On Sankashti Chaturthi in November 1997, a farmer ploughing his field in the sleepy fishing village of Diveagar struck a buried copper box shaped like a coconut. Inside was a solid gold Ganesha idol with gold ornaments, alongside an old copper plate (tamrapatra) linking the find to the Shilahara dynasty. The village built a temple around it and it became one of the Konkan's most visited shrines — even surviving a 2012 armed robbery, after which the original gold was recast into a new idol and reinstated in 2021.",
+    rituals: [
+      { name: 'Morning Aarti', time: '7:00 AM', desc: 'Idol displayed briefly to devotees under armed watch' },
+      { name: 'Angarki Chaturthi', time: 'Monthly (Tuesdays)', desc: 'The most auspicious Sankashti day, largest crowds' },
+      { name: 'Ganesh Chaturthi', time: 'Annual', desc: 'Ten-day festival with the whole village hosting pilgrims' },
+    ],
+    legend:
+      'Villagers hold that the idol was hidden underground by the Shilaharas for safekeeping over a thousand years ago and chose to "reveal" itself only when the village was ready to protect it.',
+    prasad: 'Coconut laddoo',
+    bestTime: 'Angarki Chaturthi or Ganesh Chaturthi (Aug–Sept)',
+    color: '#c17f3a',
+    distanceFromMumbai: '175 km',
+  },
+  {
+    id: 'vyadeshwar',
+    title: 'Vyadeshwar Temple',
+    subtitle: "The Chitpavans' Guardian Shiva",
+    location: 'Guhagar, Ratnagiri district',
+    deity: 'Lord Shiva (Vyadeshwar Mahadev)',
+    period: 'Ancient; associated with the Parashurama legend',
+    image: '/assets/temple-carvings.jpg',
+    description:
+      "Vyadeshwar is the kuladevata — family deity — of a great many Chitpavan Brahmin households across Maharashtra, who trace their community's origin to this stretch of coast. Tradition holds that Parashurama, the sage who is said to have reclaimed the Konkan from the sea, was himself a devotee of this Shiva. The temple sits a short walk from Guhagar's quiet, uncommercialised beach, its tall stone deepmaal (lamp towers) a signature of authentic Konkan temple architecture.",
+    rituals: [
+      { name: 'Kakad Aarti', time: 'Dawn', desc: 'Opening ceremony of the sanctum' },
+      { name: 'Shravan Somvar', time: 'Monsoon Mondays', desc: 'Special abhishek for the Chitpavan diaspora who travel back for it' },
+      { name: 'Mahashivratri', time: 'Annual', desc: 'Large gathering of families tracing lineage to Guhagar' },
+    ],
+    legend:
+      "As per local tradition, Parashurama — after pushing back the sea with his arrow to create the Konkan — worshipped Shiva here, which is why the deity is still treated as guardian of the families descended from that founding moment.",
+    prasad: 'Coconut and jaggery',
+    bestTime: 'October to March; Shravan for the ancestral pilgrimage crowds',
+    color: '#2a8fb5',
+    distanceFromMumbai: '345 km',
+  },
+];
+
+// ── Also Worth Visiting (secondary temples list) ───────────────────────────────
+// Real village and small-town shrines across the Konkan coast — the temples that
+// anchor local festival calendars even if they never make a tourist itinerary.
+
+export const additionalTemples: string[] = [
+  'Velneshwar Shiva Temple',
+  'Kadyavarcha Ganpati (Chiplun)',
+  'Aadimaya Devi Temple (Aare-Ware)',
+  'Bharadi Devi Temple (Malvan)',
+  'Sateri Devi Temple (Malvan)',
+  'Mahakali Temple (Adivare)',
+  'Rameshwar Temple (Malvan)',
+  'Ganesh Gad Temple (Redi)',
+  'Purnagad Ganpati',
+  'Jivdani Mata Temple (Virar)',
+  'Ekvira Devi Temple (Karla)',
+  'Bhagavati Devi Temple (Sawantwadi)',
+  'Vetoba Temple (Malvan)',
+  'Kalbhairav Temple (Harihareshwar)',
+  'Yogeshwari Devi Temple (Harihareshwar)',
+  'Bankavali Ganpati Temple',
+  'Aptare Ganpati Temple (Rajapur)',
+  'Athavale Devrai Grove Shrine',
+  'Karha Devi Temple (Deogad)',
+  'Kelshi Mahalaxmi Temple',
 ];
 
 // ── Pilgrimage Routes ─────────────────────────────────────────────────────────
@@ -165,6 +263,19 @@ export const pilgrimageRoutes: PilgrimageRoute[] = [
     temples: ['Ekvira Devi (Karla)', 'Jivdani Mata (Virar)', 'Bhagavati Devi (Sawantwadi)', 'Sateri Devi (Malvan)', 'Shantadurga (Goa)'],
     significance: 'Known locally as the "Shakti Path" — the path of feminine divine power along the coast.',
     color: '#3a9e6e',
+  },
+  {
+    id: 'kuladevata',
+    title: 'The Kuladevata Circuit — Family Deity Pilgrimage',
+    duration: '2–4 days',
+    distance: 'Varies by lineage, typically 200–400 km',
+    startEnd: 'Mumbai / Pune to ancestral village',
+    image: '/assets/folk-dance.jpg',
+    description:
+      "Not a fixed route but a living one, repeated by thousands of Konkan families every year. Chitpavan, CKP, Agri, Koli and Bhandari households across Maharashtra each hold a kuladevata — a specific family deity tied to their ancestral coastal village — and return to report every major life event to it: a thread ceremony, a wedding, a child's first haircut. Vyadeshwar of Guhagar and the Kalbhairav of Harihareshwar are among the most common family deities for Konkan-origin households.",
+    temples: ['Vyadeshwar (Guhagar)', 'Kunkeshwar Mahadev', 'Kalbhairav (Harihareshwar)', 'Ganpatipule', 'Village gramadevata shrine'],
+    significance: 'No wedding invitation in a Konkan-origin household is considered complete until the family has "informed" the kuladevata in person.',
+    color: '#800020',
   },
 ];
 
@@ -216,6 +327,21 @@ export const rituals: Ritual[] = [
     ],
     color: '#3a9e6e',
   },
+  {
+    id: 'village-worship',
+    title: 'Village & Grassroots Worship',
+    iconKey: 'Flame',
+    description:
+      "Beyond the famous temples, the deepest spiritual life of the Konkan happens at the village level — in the worship of the gramadevata (village guardian deity), whose annual jatra (fair) is the biggest social event on a village calendar, complete with a palanquin (palkhi) carried through every lane. Fisherfolk villages add their own layer: Narali Purnima, when coconuts are ceremonially offered to the sea to mark the end of the monsoon fishing ban, is as central to coastal life as any temple festival.",
+    practices: [
+      'Gramadevata Jatra: annual village fair with a palanquin procession through every lane',
+      'Holi/Shimga: bonfires, Dashavatar folk theatre, and door-to-door Dhakti/Gauri troupes',
+      "Narali Purnima: coconuts offered to the sea, marking the fishing fleet's return to open water",
+      'Devak: a sacred branch or plant installed at the start of every wedding ceremony',
+      'Gaurai-Ganpati: household worship linking the harvest, ancestors, and the Ganesh festival',
+    ],
+    color: '#800020',
+  },
 ];
 
 // ── Page meta (hero, stats, quotes) ──────────────────────────────────────────
@@ -233,7 +359,7 @@ export const spiritualMeta = {
   },
   stats: [
     { value: '200+', label: 'Ancient temples on the coast' },
-    { value: '3', label: 'Major pilgrimage circuits' },
+    { value: '4', label: 'Major pilgrimage circuits' },
     { value: '5', label: 'Jyotirlingas in Maharashtra' },
   ],
   pullQuote: {
@@ -251,6 +377,6 @@ export const spiritualMeta = {
     routes:
       'Pilgrimage in Konkan is not just about the destination — it is about the journey through the landscape. The routes pass through forest, river, and coast with a logic that feels both sacred and geographic at once.',
     rituals:
-      'The spiritual life of Konkan is carried in sound — the conch, the bell, the chant — and in practices so old they predate recorded history. These are the living scriptures of the coast.',
+      'The spiritual life of Konkan is carried in sound — the conch, the bell, the chant — and in practices so old they predate recorded history, from grand temple aartis down to the smallest village jatra. These are the living scriptures of the coast.',
   },
 };
