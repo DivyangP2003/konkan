@@ -2,18 +2,20 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { Palette, Users, Calendar } from 'lucide-react';
+import { Palette, Users, Calendar, Hammer, Languages } from 'lucide-react';
 import {
   artsAndFolk,
   festivals,
   localCustoms,
+  craftsAndLivelihoods,
+  oralHeritage,
   cultureMeta,
   type ArtForm,
   type Festival,
   type LocalCustom,
 } from '@/data/culture';
 
-type Tab = 'arts' | 'festivals' | 'customs';
+type Tab = 'arts' | 'festivals' | 'customs' | 'crafts' | 'language';
 
 // ── Components ────────────────────────────────────────────────────────────────
 
@@ -209,6 +211,8 @@ export default function CulturePage() {
     { id: 'arts', label: 'Arts & Folk', icon: <Palette className="w-4 h-4" />, count: artsAndFolk.length },
     { id: 'festivals', label: 'Festivals & Fairs', icon: <Calendar className="w-4 h-4" />, count: festivals.length },
     { id: 'customs', label: 'Local Customs', icon: <Users className="w-4 h-4" />, count: localCustoms.length },
+    { id: 'crafts', label: 'Crafts & Livelihoods', icon: <Hammer className="w-4 h-4" />, count: craftsAndLivelihoods.length },
+    { id: 'language', label: 'Language & Oral Heritage', icon: <Languages className="w-4 h-4" />, count: oralHeritage.length },
   ];
 
   return (
@@ -249,7 +253,7 @@ export default function CulturePage() {
 
       {/* ── Tabs ── */}
       <section className="max-w-7xl mx-auto px-8 md:px-16 pt-16 pb-4">
-        <div className="flex gap-0 border-b border-[#0d2d1e]">
+        <div className="flex flex-wrap gap-0 border-b border-[#0d2d1e]">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -305,6 +309,28 @@ export default function CulturePage() {
             </div>
             <div className="space-y-24">
               {localCustoms.map((custom, idx) => <CustomCard key={custom.id} custom={custom} idx={idx} />)}
+            </div>
+          </motion.section>
+        )}
+
+        {activeTab === 'crafts' && (
+          <motion.section key="crafts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="max-w-7xl mx-auto px-8 md:px-16 py-16">
+            <div className="mb-12">
+              <p className="font-sans text-xs text-[#f4ecd8]/40 leading-relaxed max-w-2xl">{tabDescriptions.crafts}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+              {craftsAndLivelihoods.map((craft, idx) => <ArtCard key={craft.id} art={craft} idx={idx} />)}
+            </div>
+          </motion.section>
+        )}
+
+        {activeTab === 'language' && (
+          <motion.section key="language" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="max-w-7xl mx-auto px-8 md:px-16 py-16">
+            <div className="mb-16">
+              <p className="font-sans text-xs text-[#f4ecd8]/40 leading-relaxed max-w-2xl">{tabDescriptions.language}</p>
+            </div>
+            <div className="space-y-24">
+              {oralHeritage.map((item, idx) => <CustomCard key={item.id} custom={item} idx={idx} />)}
             </div>
           </motion.section>
         )}
