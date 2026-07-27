@@ -57,7 +57,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-8 md:px-16 py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
         {/* Brand */}
         <div className="lg:col-span-1">
-          <Link href={`${base}/`} className="font-serif text-[32px] tracking-[0.18em] text-[#800020] hover:text-[#a02040] transition-colors">
+           <Link href="/" className="font-serif text-[32px] tracking-[0.18em] text-[#800020] hover:text-[#a02040] transition-colors">
             K.
           </Link>
           <p className="mt-4 font-sans text-xs text-[#f4ecd8]/35 leading-relaxed max-w-xs">
@@ -144,9 +144,9 @@ export function Footer() {
           KONKAN — Blessed with Nature's Richest Treasures
         </p>
         <div className="flex items-center gap-6 text-[10px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/22">
-          <a href={`${base}/#discover`} className="hover:text-[#f4ecd8]/55 transition-colors">Story</a>
-          <a href={`${base}/#map`} className="hover:text-[#f4ecd8]/55 transition-colors">Map</a>
-          <Link href={`${base}/explore`} className="hover:text-[#f4ecd8]/55 transition-colors">Browse All Realms</Link>
+           <Link href="/#discover" className="hover:text-[#f4ecd8]/55 transition-colors">Story</Link>
+           <Link href="/map" className="hover:text-[#f4ecd8]/55 transition-colors">Map</Link>
+           <Link href="/explore" className="hover:text-[#f4ecd8]/55 transition-colors">Browse All Realms</Link>
         </div>
       </div>
     </footer>

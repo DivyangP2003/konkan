@@ -79,7 +79,13 @@ export function ParallaxDivider() {
     ? quotes[(index * 2 + 1) % quotes.length]
     : null;
 
-  const QuoteCard = ({ quote, cardKey }) => (
+  const QuoteCard = ({
+    quote,
+    cardKey,
+  }: {
+    quote: (typeof quotes)[number];
+    cardKey: string | number;
+  }) => (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}

@@ -28,6 +28,8 @@ import ContactPage from './pages/contact';
 import SeasonalPage from './pages/seasonal';
 import BookingPage from './pages/booking';
 import BusinessesPage from './pages/businesses';
+import MapPage from './pages/map';
+import SearchPage from './pages/search';
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,8 @@ function Router() {
       {/* Phase 6 — Booking, Businesses & Smart Search */}
       <Route path="/booking" component={BookingPage} />
       <Route path="/businesses" component={BusinessesPage} />
+      <Route path="/map" component={MapPage} />
+      <Route path="/search" component={SearchPage} />
       <Route component={NotFound} />
     </Switch>
   );
