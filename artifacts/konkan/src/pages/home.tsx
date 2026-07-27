@@ -1,5 +1,6 @@
 import { Hero3D }          from '@/components/hero-3d';
 import { Navbar }           from '@/components/navbar';
+import { AlertBanner }      from '@/components/alert-banner';
 import { RealmCarousel }    from '@/components/realm-carousel';
 import { MarqueeTicker }    from '@/components/marquee-ticker';
 import { KonkanMap }        from '@/components/konkan-map';
@@ -16,6 +17,7 @@ import { SeasonalCTA }      from '@/components/seasonal-cta';
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#020d08] selection:bg-[#3a9e6e]/30 selection:text-[#f4ecd8]">
+      <AlertBanner />
       <Navbar />
       <Hero3D />
       <RealmCarousel />

@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sections } from '@/data/sections';
 import { UserMenu } from './user-menu';
 import { AuthDialog } from './auth-dialog';
+import { SearchOverlay } from './search-overlay';
 import { useAuthStore } from '@/stores/auth-store';
 import { Button } from '@/components/ui/button';
 import {
@@ -64,6 +65,8 @@ const siteLinks = [
   { label: 'Activities', href: '/activities' },
   { label: 'Adventure',  href: '/adventure' },
   { label: 'Plan',       href: '/plan' },
+  { label: 'Book',       href: '/booking' },
+  { label: 'Businesses', href: '/businesses' },
   { label: 'Stories',    href: '/stories' },
   { label: 'About',      href: '/about' },
   { label: 'Contact',    href: '/contact' },
@@ -79,6 +82,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
   const [location, navigate] = useLocation();
   const { user, signOut } = useAuthStore();
@@ -111,6 +115,17 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
     setMegaOpen(false);
     setDrawerOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen((o) => !o);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const isLight = scrolled || megaOpen;
@@ -197,6 +212,21 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
           </div>
 
           <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-2 text-[9px] tracking-[0.18em] uppercase font-sans transition-colors duration-300 border',
+                isLight
+                  ? 'border-[#800020]/20 text-[#800020]/70 hover:text-[#800020] hover:border-[#800020]/40'
+                  : 'border-[#f4ecd8]/15 text-[#f4ecd8]/50 hover:text-[#f4ecd8]/80 hover:border-[#f4ecd8]/30',
+              )}
+              title="Search (⌘K)"
+            >
+              <Search size={12} />
+              <span className="hidden xl:inline">Search</span>
+              <span className="hidden xl:inline text-[7px] opacity-50 ml-1">⌘K</span>
+            </button>
+
             <UserMenu onSignInClick={handleSignInClick} />
 
             <a
@@ -418,6 +448,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
       </AnimatePresence>
 
       <AuthDialog open={authOpen} onOpenChange={setAuthOpen} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { AlertBanner } from '@/components/alert-banner';
+import { WeatherWidget } from '@/components/weather-widget';
 import {
   Map, Train, Hotel, Info, ChevronDown, ChevronUp,
   MapPin, Clock, Wallet, Calendar, CheckCircle2, AlertTriangle, Wifi,
+  PenLine, Plus, Trash2, Save, Lock, Star,
 } from 'lucide-react';
 import {
   planMeta,
@@ -17,8 +20,12 @@ import {
   type AccommodationType,
   type PracticalSection,
 } from '@/data/plan';
+import { itineraryHelpers, type ItineraryDay } from '@/lib/itinerary-helpers';
+import { useAuthStore } from '@/stores/auth-store';
+import { useToast } from '@/components/ui/use-toast';
+import { KONKAN_WEATHER_LOCATIONS } from '@/lib/weather';
 
-type Tab = 'itineraries' | 'transport' | 'accommodation' | 'practical';
+type Tab = 'itineraries' | 'transport' | 'accommodation' | 'practical' | 'builder';
 
 const typeConfig = {
   budget:  { label: 'Budget Friendly', color: '#3a9e6e' },
@@ -453,6 +460,249 @@ function PracticalCard({ section, idx }: { section: PracticalSection; idx: numbe
   );
 }
 
+// ── Itinerary Builder ─────────────────────────────────────────────────────────
+function ItineraryBuilder() {
+  const { user } = useAuthStore();
+  const { toast } = useToast();
+
+  const [title, setTitle] = useState('My Konkan Journey');
+  const [tripType, setTripType] = useState<'budget' | 'premium' | 'monsoon' | 'custom'>('budget');
+  const [budgetMin, setBudgetMin] = useState(1500);
+  const [budgetMax, setBudgetMax] = useState(3000);
+  const [days, setDays] = useState<ItineraryDay[]>([
+    { day: 1, title: 'Arrival in Konkan', activities: ['Check in to accommodation', 'Evening beach walk'], stay: '' },
+  ]);
+  const [saving, setSaving] = useState(false);
+  const [savedId, setSavedId] = useState<string | null>(null);
+
+  function addDay() {
+    setDays((prev) => [
+      ...prev,
+      { day: prev.length + 1, title: `Day ${prev.length + 1}`, activities: [''], stay: '' },
+    ]);
+  }
+
+  function removeDay(i: number) {
+    setDays((prev) => prev.filter((_, idx) => idx !== i).map((d, idx) => ({ ...d, day: idx + 1 })));
+  }
+
+  function updateDay(i: number, field: keyof ItineraryDay, value: string | string[]) {
+    setDays((prev) => prev.map((d, idx) => idx === i ? { ...d, [field]: value } : d));
+  }
+
+  function addActivity(dayIdx: number) {
+    const d = days[dayIdx];
+    updateDay(dayIdx, 'activities', [...d.activities, '']);
+  }
+
+  function updateActivity(dayIdx: number, actIdx: number, value: string) {
+    const d = days[dayIdx];
+    const acts = d.activities.map((a, i) => i === actIdx ? value : a);
+    updateDay(dayIdx, 'activities', acts);
+  }
+
+  function removeActivity(dayIdx: number, actIdx: number) {
+    const d = days[dayIdx];
+    updateDay(dayIdx, 'activities', d.activities.filter((_, i) => i !== actIdx));
+  }
+
+  async function handleSave() {
+    if (!user) {
+      toast({ title: 'Sign in required', description: 'Please sign in to save your itinerary.' });
+      return;
+    }
+    setSaving(true);
+    const { data, error } = await itineraryHelpers.save(user.id, {
+      title,
+      duration_days: days.length,
+      trip_type: tripType,
+      budget_min: budgetMin,
+      budget_max: budgetMax,
+      destinations: [],
+      days: days.map((d) => ({ ...d, activities: d.activities.filter(Boolean) })),
+      is_public: false,
+    });
+    setSaving(false);
+    if (error) {
+      toast({ title: 'Error', description: 'Could not save itinerary. Please try again.' });
+    } else {
+      setSavedId(data?.id ?? null);
+      toast({ title: 'Saved!', description: 'Your itinerary has been saved to your account.' });
+    }
+  }
+
+  const accentColor = tripType === 'premium' ? '#c17f3a' : tripType === 'monsoon' ? '#2a8fb5' : '#3a9e6e';
+
+  return (
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="mb-10">
+        <p className="text-[9px] tracking-[0.4em] uppercase font-sans mb-3" style={{ color: accentColor }}>
+          Personalised Itinerary Builder
+        </p>
+        <h2 className="font-serif text-4xl text-[#f4ecd8] mb-2">Build Your Perfect Trip</h2>
+        <p className="font-sans text-sm text-[#f4ecd8]/45 max-w-2xl leading-relaxed">
+          Craft a day-by-day plan tailored to your interests, duration, and budget. Save it to your account and access it anytime.
+        </p>
+      </div>
+
+      {/* Trip Meta */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-[#0d2d1e] bg-[#0d2d1e]/30">
+        <div>
+          <label className="block text-[8px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/40 mb-1.5">Trip Title</label>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full bg-[#020d08] border border-[#0d2d1e] text-[#f4ecd8] font-serif text-lg px-3 py-2 outline-none focus:border-[#3a9e6e]/50"
+            placeholder="My Konkan Journey"
+          />
+        </div>
+        <div>
+          <label className="block text-[8px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/40 mb-1.5">Trip Style</label>
+          <div className="flex gap-2">
+            {([
+              { v: 'budget', l: 'Budget', c: '#3a9e6e' },
+              { v: 'premium', l: 'Premium', c: '#c17f3a' },
+              { v: 'monsoon', l: 'Monsoon', c: '#2a8fb5' },
+              { v: 'custom', l: 'Custom', c: '#d45f2a' },
+            ] as const).map(({ v, l, c }) => (
+              <button
+                key={v}
+                onClick={() => setTripType(v)}
+                className="flex-1 py-2 text-[8px] tracking-[0.18em] uppercase font-sans border transition-all"
+                style={
+                  tripType === v
+                    ? { backgroundColor: c, color: '#020d08', borderColor: c }
+                    : { borderColor: '#0d2d1e', color: `${c}99` }
+                }
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block text-[8px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/40 mb-1.5">
+            Daily Budget Range (₹/person)
+          </label>
+          <div className="flex items-center gap-3">
+            <input type="number" value={budgetMin} min={500} step={500}
+              onChange={(e) => setBudgetMin(+e.target.value)}
+              className="w-full bg-[#020d08] border border-[#0d2d1e] text-[#f4ecd8] text-sm font-sans px-3 py-2 outline-none" />
+            <span className="text-[#f4ecd8]/30 shrink-0">to</span>
+            <input type="number" value={budgetMax} min={500} step={500}
+              onChange={(e) => setBudgetMax(+e.target.value)}
+              className="w-full bg-[#020d08] border border-[#0d2d1e] text-[#f4ecd8] text-sm font-sans px-3 py-2 outline-none" />
+          </div>
+        </div>
+        <div className="flex items-end">
+          <div className="bg-[#0d2d1e]/50 border border-[#0d2d1e] p-3 w-full">
+            <p className="text-[8px] tracking-[0.18em] uppercase font-sans text-[#f4ecd8]/30 mb-1">Estimated Total</p>
+            <p className="font-serif text-2xl" style={{ color: accentColor }}>
+              ₹{(budgetMin * days.length).toLocaleString('en-IN')} – ₹{(budgetMax * days.length).toLocaleString('en-IN')}
+            </p>
+            <p className="text-[9px] font-sans text-[#f4ecd8]/30 mt-0.5">for {days.length} day{days.length > 1 ? 's' : ''}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Days */}
+      <div className="space-y-4">
+        {days.map((d, i) => (
+          <motion.div key={i} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            className="border border-[#0d2d1e] hover:border-[#1a4a30] transition-colors">
+            <div className="p-5 border-b border-[#0d2d1e] flex items-center gap-4">
+              <div className="w-8 h-8 flex items-center justify-center shrink-0 font-serif text-sm"
+                style={{ backgroundColor: `${accentColor}20`, color: accentColor }}>
+                {d.day}
+              </div>
+              <input value={d.title} onChange={(e) => updateDay(i, 'title', e.target.value)}
+                className="flex-1 bg-transparent text-[#f4ecd8] font-serif text-lg outline-none placeholder-[#f4ecd8]/25"
+                placeholder={`Day ${d.day} title…`} />
+              {days.length > 1 && (
+                <button onClick={() => removeDay(i)}
+                  className="p-1.5 text-[#f4ecd8]/25 hover:text-[#d45f2a] transition-colors">
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+            <div className="p-5 space-y-3">
+              <p className="text-[8px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/30">Activities</p>
+              {d.activities.map((act, ai) => (
+                <div key={ai} className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: accentColor }} />
+                  <input value={act} onChange={(e) => updateActivity(i, ai, e.target.value)}
+                    className="flex-1 bg-transparent border-b border-[#0d2d1e] focus:border-[#3a9e6e]/40 text-sm font-sans text-[#f4ecd8]/80 py-1 outline-none placeholder-[#f4ecd8]/20"
+                    placeholder="Add an activity…" />
+                  {d.activities.length > 1 && (
+                    <button onClick={() => removeActivity(i, ai)}
+                      className="p-0.5 text-[#f4ecd8]/20 hover:text-[#d45f2a] transition-colors">
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button onClick={() => addActivity(i)}
+                className="flex items-center gap-1.5 text-[9px] tracking-[0.18em] uppercase font-sans mt-2"
+                style={{ color: `${accentColor}80` }}>
+                <Plus className="w-3 h-3" /> Add activity
+              </button>
+
+              <div className="pt-3 border-t border-[#0d2d1e]">
+                <p className="text-[8px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/30 mb-1">Stay / Accommodation</p>
+                <input value={d.stay ?? ''} onChange={(e) => updateDay(i, 'stay', e.target.value)}
+                  className="w-full bg-transparent border-b border-[#0d2d1e] focus:border-[#3a9e6e]/40 text-sm font-sans text-[#f4ecd8]/60 py-1 outline-none placeholder-[#f4ecd8]/20"
+                  placeholder="e.g. Beachside homestay in Tarkarli…" />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Add Day */}
+      <button onClick={addDay}
+        className="w-full flex items-center justify-center gap-2 py-4 border border-dashed border-[#0d2d1e] hover:border-[#3a9e6e]/50 text-[9px] tracking-[0.22em] uppercase font-sans text-[#f4ecd8]/30 hover:text-[#3a9e6e] transition-all duration-300">
+        <Plus className="w-3.5 h-3.5" /> Add Day {days.length + 1}
+      </button>
+
+      {/* Weather for Planning */}
+      <div className="border-t border-[#0d2d1e] pt-8">
+        <p className="text-[9px] tracking-[0.32em] uppercase font-sans text-[#f4ecd8]/30 mb-4">
+          Live Weather — Key Destinations
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+          {KONKAN_WEATHER_LOCATIONS.slice(0, 3).map((loc) => (
+            <WeatherWidget key={loc.id} lat={loc.lat} lng={loc.lng} locationName={loc.name} compact accentColor={accentColor} />
+          ))}
+        </div>
+      </div>
+
+      {/* Save */}
+      <div className="flex items-center gap-4 pt-6 border-t border-[#0d2d1e]">
+        {savedId ? (
+          <div className="flex items-center gap-2 text-sm font-sans text-[#3a9e6e]">
+            <CheckCircle2 className="w-4 h-4" />
+            Itinerary saved to your account
+          </div>
+        ) : (
+          <button onClick={handleSave} disabled={saving}
+            className="flex items-center gap-2 px-8 py-3 text-[10px] tracking-[0.22em] uppercase font-sans disabled:opacity-50 transition-opacity hover:opacity-80"
+            style={{ backgroundColor: accentColor, color: '#020d08' }}>
+            {user ? (
+              <><Save className="w-3.5 h-3.5" /> {saving ? 'Saving…' : 'Save Itinerary'}</>
+            ) : (
+              <><Lock className="w-3.5 h-3.5" /> Sign In to Save</>
+            )}
+          </button>
+        )}
+        <p className="text-[9px] font-sans text-[#f4ecd8]/30">
+          {days.length} day itinerary · Est. ₹{(budgetMin * days.length).toLocaleString('en-IN')}–₹{(budgetMax * days.length).toLocaleString('en-IN')}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ── Page ───────────────────────────────────────────────────────────────────────
 export default function PlanPage() {
   const [activeTab, setActiveTab] = useState<Tab>('itineraries');
@@ -460,6 +710,7 @@ export default function PlanPage() {
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'itineraries',   label: 'Itineraries',       icon: <Map className="w-4 h-4" /> },
+    { id: 'builder',       label: 'Build My Trip',     icon: <PenLine className="w-4 h-4" /> },
     { id: 'transport',     label: 'Transportation',     icon: <Train className="w-4 h-4" /> },
     { id: 'accommodation', label: 'Accommodation',      icon: <Hotel className="w-4 h-4" /> },
     { id: 'practical',     label: 'Practical Info',     icon: <Info className="w-4 h-4" /> },
@@ -467,6 +718,7 @@ export default function PlanPage() {
 
   return (
     <div className="min-h-screen bg-[#020d08] selection:bg-[#3a9e6e]/30 selection:text-[#f4ecd8]">
+      <AlertBanner />
       <Navbar />
 
       {/* ── Hero ── */}
@@ -572,6 +824,19 @@ export default function PlanPage() {
             <div className="space-y-16">
               {itineraries.map((itin, i) => <ItineraryCard key={itin.id} itin={itin} idx={i} />)}
             </div>
+          </motion.section>
+        )}
+
+        {activeTab === 'builder' && (
+          <motion.section
+            key="builder"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="max-w-7xl mx-auto px-8 md:px-16 py-16"
+          >
+            <ItineraryBuilder />
           </motion.section>
         )}
 
