@@ -64,6 +64,9 @@ const siteLinks = [
   { label: 'Activities', href: '/activities' },
   { label: 'Adventure',  href: '/adventure' },
   { label: 'Plan',       href: '/plan' },
+  { label: 'Stories',    href: '/stories' },
+  { label: 'About',      href: '/about' },
+  { label: 'Contact',    href: '/contact' },
 ];
 
 interface NavbarProps {

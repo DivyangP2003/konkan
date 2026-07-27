@@ -40,6 +40,9 @@ const deepDiveLinks = [
   { label: 'Culture & Customs', href: '/culture' },
   { label: 'Heritage & Monuments', href: '/heritage' },
   { label: 'Spiritual & Sacred', href: '/spiritual' },
+  { label: 'Stories & Insights', href: '/stories' },
+  { label: 'About & Community', href: '/about' },
+  { label: 'Contact & Support', href: '/contact' },
 ];
 const deepDiveColor = '#c17f3a';
 
