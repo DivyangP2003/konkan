@@ -16,7 +16,7 @@ import {
 } from '@/data/transport';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/auth-store';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 // ── Mode Tab ──────────────────────────────────────────────────────────────────
 const MODES: { mode: TransportMode; icon: typeof Train; routes: TransportRoute[] }[] = [
