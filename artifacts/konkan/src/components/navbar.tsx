@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown, Search } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sections } from '@/data/sections';
 import { UserMenu } from './user-menu';
@@ -53,7 +53,7 @@ const sectionMap = Object.fromEntries(sections.map((s) => [s.id, s]));
 
 const primaryLinks = [
   { label: 'Story', href: '/#discover' },
-  { label: 'Map',   href: '/#map'      },
+  { label: 'Map',   href: '/map'      },
 ];
 
 const siteLinks = [
@@ -72,6 +72,22 @@ const siteLinks = [
   { label: 'Contact',    href: '/contact' },
 ];
 
+const moreLinks = [
+  { label: 'Culture', href: '/culture', description: 'Art, music & traditions' },
+  { label: 'Heritage', href: '/heritage', description: 'Forts, temples & history' },
+  { label: 'Spiritual', href: '/spiritual', description: 'Sacred temples & pilgrimages' },
+  { label: 'Stay', href: '/stay', description: 'Homestays, resorts & more' },
+  { label: 'Food', href: '/food', description: 'Authentic Konkan cuisine' },
+  { label: 'Activities', href: '/activities', description: 'Things to do along the coast' },
+  { label: 'Adventure', href: '/adventure', description: 'Treks, water sports & more' },
+  { label: 'Plan', href: '/plan', description: 'Build your Konkan itinerary' },
+  { label: 'Book', href: '/booking', description: 'Trains, buses, ferries & cabs' },
+  { label: 'Businesses', href: '/businesses', description: 'Guides, eateries & artisans' },
+  { label: 'Stories', href: '/stories', description: 'Voices and field notes' },
+  { label: 'About', href: '/about', description: 'Why Konkan exists' },
+  { label: 'Contact', href: '/contact', description: 'Questions, ideas & partnerships' },
+];
+
 interface NavbarProps {
   onAuthRequired?: () => void;
 }
@@ -79,6 +95,7 @@ interface NavbarProps {
 export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
@@ -113,6 +130,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
 
   useEffect(() => {
     setMegaOpen(false);
+    setMoreOpen(false);
     setDrawerOpen(false);
   }, [location]);
 
@@ -128,7 +146,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   }, []);
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const isLight = scrolled || megaOpen;
+  const isLight = scrolled || megaOpen || moreOpen;
 
   const navLinkClass = (extra?: string) =>
     cn(
@@ -153,22 +171,29 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
             : 'bg-gradient-to-b from-black/45 via-black/20 to-transparent'
         )}
       >
-        <div className="flex items-center justify-between gap-3 px-6 md:px-10 py-4 md:py-5">
+        <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-3.5 md:px-8 md:py-4">
 
           <Link
-            href={`${base}/`}
+            href="/"
             className={cn(
-              'text-[28px] font-serif tracking-[0.18em] font-light select-none shrink-0 z-10 transition-colors duration-500',
+              'flex shrink-0 select-none items-center gap-2.5 font-serif text-[25px] font-light tracking-[0.16em] transition-colors duration-500 z-10',
               isLight ? 'text-[#800020]' : 'text-[#f4ecd8]'
             )}
           >
             K.
+            <span className={cn(
+              'hidden border-l pl-2.5 font-sans text-[8px] font-medium uppercase tracking-[0.3em] sm:inline',
+              isLight ? 'border-[#800020]/20 text-[#800020]/55' : 'border-[#f4ecd8]/20 text-[#f4ecd8]/50'
+            )}>
+              Konkan
+            </span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0">
+          <div className="hidden lg:flex min-w-0 flex-1 items-center justify-center gap-1">
             <button
               onClick={() => setMegaOpen((o) => !o)}
               className={navLinkClass('flex items-center gap-1.5 relative')}
+              aria-expanded={megaOpen}
             >
               Explore
               <motion.span animate={{ rotate: megaOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
@@ -179,43 +204,78 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
               )}
             </button>
 
-            <Link href={`${base}/explore`} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
-              All Realms
-              <span className={navUnderlineClass} />
-            </Link>
-
-            {primaryLinks.map(({ label, href }) => (
-              <a key={href} href={href} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
-                {label}
-                <span className={navUnderlineClass} />
-              </a>
-            ))}
-
-            <Link href="/destinations" className={navLinkClass()}>
+            <Link href="/destinations" onClick={() => setMegaOpen(false)} className={navLinkClass()}>
               Destinations
               <span className={navUnderlineClass} />
             </Link>
 
-            {siteLinks.map(({ label, href }) => (
-              <Link key={href} href={href} className={navLinkClass()}>
+            {primaryLinks.map(({ label, href }) => (
+              <Link key={href} href={href} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
                 {label}
                 <span className={navUnderlineClass} />
               </Link>
             ))}
 
-            {user && user.role === 'admin' && (
-              <Link href="/admin" className={navLinkClass()}>
-                Admin
-                <span className={navUnderlineClass} />
-              </Link>
-            )}
+            <div className="relative">
+              <button
+                onClick={() => setMoreOpen((o) => !o)}
+                className={navLinkClass('flex items-center gap-1.5 relative')}
+                aria-expanded={moreOpen}
+              >
+                More
+                <motion.span animate={{ rotate: moreOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                  <ChevronDown size={11} strokeWidth={2} />
+                </motion.span>
+                {moreOpen && (
+                  <span className={cn('absolute bottom-0 left-3 right-3 h-[1px]', isLight ? 'bg-[#800020]' : 'bg-[#f4ecd8]')} />
+                )}
+              </button>
+              <AnimatePresence>
+                {moreOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-1/2 top-full mt-4 w-[360px] -translate-x-1/2 border border-[#1c4b31] bg-[#06150d]/98 p-3 shadow-2xl backdrop-blur-xl"
+                  >
+                    <div className="grid grid-cols-2 gap-1">
+                      {moreLinks.map(({ label, href, description }) => (
+                        <Link
+                          key={href}
+                          href={href}
+                          onClick={() => setMoreOpen(false)}
+                          className="group rounded-sm px-3 py-2.5 transition-colors hover:bg-[#0d2d1e]/70"
+                        >
+                          <span className="flex items-center justify-between text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#f4ecd8]/80 group-hover:text-[#f4ecd8]">
+                            {label}
+                            <ArrowUpRight className="h-3 w-3 text-[#3a9e6e]/60 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          </span>
+                          <span className="mt-1 block font-sans text-[9px] leading-relaxed text-[#f4ecd8]/35">{description}</span>
+                        </Link>
+                      ))}
+                      {user?.role === 'admin' && (
+                        <Link href="/admin" onClick={() => setMoreOpen(false)} className="rounded-sm px-3 py-2.5 transition-colors hover:bg-[#0d2d1e]/70">
+                          <span className="text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#c17f3a]">Admin</span>
+                          <span className="mt-1 block font-sans text-[9px] text-[#f4ecd8]/35">Manage the platform</span>
+                        </Link>
+                      )}
+                    </div>
+                    <Link href="/explore" onClick={() => setMoreOpen(false)} className="mt-2 flex items-center justify-between border-t border-[#0d2d1e] px-3 pt-3 text-[9px] font-sans uppercase tracking-[0.22em] text-[#3a9e6e] hover:text-[#4ab57e]">
+                      Browse all realms
+                      <ArrowUpRight className="h-3 w-3" />
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="hidden lg:flex shrink-0 items-center gap-2.5">
             <button
               onClick={() => setSearchOpen(true)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-2 text-[9px] tracking-[0.18em] uppercase font-sans transition-colors duration-300 border',
+                'flex items-center gap-1.5 px-2.5 py-2 text-[9px] tracking-[0.16em] uppercase font-sans transition-colors duration-300 border',
                 isLight
                   ? 'border-[#800020]/20 text-[#800020]/70 hover:text-[#800020] hover:border-[#800020]/40'
                   : 'border-[#f4ecd8]/15 text-[#f4ecd8]/50 hover:text-[#f4ecd8]/80 hover:border-[#f4ecd8]/30',
@@ -302,7 +362,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
                     Explore all facets of the Konkan coast
                   </p>
                   <Link
-                    href={`${base}/explore`}
+                    href="/explore"
                     onClick={() => setMegaOpen(false)}
                     className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#3a9e6e] hover:text-[#4ab57e] transition-colors duration-200 flex items-center gap-2"
                   >
@@ -330,13 +390,13 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
             <div className="min-h-full px-6 pb-16 pt-24">
 
               <div className="flex flex-col gap-1 mb-8">
-                <Link href={`${base}/explore`} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
+                <Link href="/explore" onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                   All Realms
                 </Link>
                 {primaryLinks.map(({ label, href }) => (
-                  <a key={href} href={href} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
+                  <Link key={href} href={href} onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                     {label}
-                  </a>
+                  </Link>
                 ))}
                 <Link href="/destinations" onClick={() => setDrawerOpen(false)} className="font-serif text-2xl text-[#f4ecd8]/70 hover:text-[#f4ecd8] py-2 transition-colors">
                   Destinations

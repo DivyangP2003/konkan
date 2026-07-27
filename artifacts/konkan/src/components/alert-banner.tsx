@@ -82,7 +82,7 @@ export function AlertBanner() {
   if (visibleAlerts.length === 0) return null;
 
   return (
-    <div className="w-full z-40">
+    <div className="relative z-[60] w-full pt-[56px] lg:pt-[58px]">
       <AnimatePresence>
         {visibleAlerts.map((alert) => (
           <motion.div

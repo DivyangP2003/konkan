@@ -4,6 +4,7 @@ import {
   CloudRain, Sun, Waves, AlertTriangle, ChevronRight,
   Thermometer, Fish, Turtle, Leaf, Wind, MapPin, Clock, Camera
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Navbar } from '../components/navbar';
 import { Footer } from '../components/footer';
 import { useLocation } from 'wouter';
@@ -271,7 +272,7 @@ function SectionCard({
   accentColor,
   index,
 }: {
-  section: { title: string; icon: React.ComponentType<{ className?: string }>; content: string[] };
+  section: { title: string; icon: LucideIcon; content: readonly string[] };
   accentColor: string;
   index: number;
 }) {
