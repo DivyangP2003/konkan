@@ -18,6 +18,7 @@ import { sampleDestinations, type Destination } from '../data/destinations';
 import { useLocation } from 'wouter';
 import { Navbar } from '../components/navbar';
 import { Footer } from '../components/footer';
+import { AlertBanner } from '../components/alert-banner';
 import { cn } from '../lib/utils';
 
 const sortOptions = [
@@ -324,6 +325,7 @@ export default function DestinationsPage() {
 
   return (
     <div className="min-h-screen bg-[#020d08] text-[#f4ecd8]">
+      <AlertBanner />
       <Navbar />
 
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}

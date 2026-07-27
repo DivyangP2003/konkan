@@ -26,6 +26,8 @@ import StoriesPage from './pages/stories';
 import AboutPage from './pages/about';
 import ContactPage from './pages/contact';
 import SeasonalPage from './pages/seasonal';
+import BookingPage from './pages/booking';
+import BusinessesPage from './pages/businesses';
 
 const queryClient = new QueryClient();
 
@@ -55,6 +57,9 @@ function Router() {
       <Route path="/contact" component={ContactPage} />
       {/* Phase 5 — Seasonal Guides & Home Enhancement */}
       <Route path="/seasonal" component={SeasonalPage} />
+      {/* Phase 6 — Booking, Businesses & Smart Search */}
+      <Route path="/booking" component={BookingPage} />
+      <Route path="/businesses" component={BusinessesPage} />
       <Route component={NotFound} />
     </Switch>
   );
