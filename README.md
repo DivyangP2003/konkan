@@ -32,6 +32,17 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON=your-anon-public-key
 ```
 
+For the optional AI route planner, add this server-only Vercel variable:
+
+```
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+The Plan page uses `gemini-2.5-flash` by default. It is a good fit for itinerary
+advice because it is fast and cost-conscious; override it with `GEMINI_MODEL`
+only if you have a specific reason. Do not prefix this variable with `VITE_`:
+the key must stay on the Vercel server and is used by `api/plan.ts`.
+
 ## Features
 
 - `/` — Landing page with realms, hero, map, and stories
