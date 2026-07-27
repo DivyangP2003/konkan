@@ -20,6 +20,8 @@ import WishlistPage from './pages/wishlist';
 import CulturePage from './pages/culture';
 import HeritagePage from './pages/heritage';
 import SpiritualPage from './pages/spiritual';
+import AdventurePage from './pages/adventure';
+import PlanPage from './pages/plan';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,9 @@ function Router() {
       <Route path="/culture" component={CulturePage} />
       <Route path="/heritage" component={HeritagePage} />
       <Route path="/spiritual" component={SpiritualPage} />
+      {/* Phase 3 — Adventure & Plan Your Trip */}
+      <Route path="/adventure" component={AdventurePage} />
+      <Route path="/plan" component={PlanPage} />
       <Route component={NotFound} />
     </Switch>
   );

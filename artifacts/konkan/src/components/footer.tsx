@@ -30,6 +30,8 @@ const travelPlanningLinks = [
   { label: 'Where to Stay', href: '/stay' },
   { label: 'Food Guide', href: '/food' },
   { label: 'Activities', href: '/activities' },
+  { label: 'Adventure', href: '/adventure' },
+  { label: 'Plan Your Trip', href: '/plan' },
 ];
 const travelPlanningColor = '#b5842a';
 
