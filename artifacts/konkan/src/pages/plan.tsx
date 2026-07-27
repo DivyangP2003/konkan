@@ -541,7 +541,11 @@ function ItineraryBuilder() {
     setSaving(false);
     if (error) {
       console.error('Itinerary save error:', error);
-      toast({ title: 'Could not save itinerary', description: (error as any)?.message || 'Please try again.' });
+      const msg = (error as any)?.message || '';
+      const helpful = msg.toLowerCase().includes('schema cache')
+        ? 'Database table not found. Please run supabase/migrations/001_features.sql in Supabase SQL Editor.'
+        : msg;
+      toast({ title: 'Could not save itinerary', description: helpful });
     } else {
       setSavedId(data?.id ?? null);
       toast({ title: 'Saved!', description: 'Your itinerary has been saved to your account.' });
