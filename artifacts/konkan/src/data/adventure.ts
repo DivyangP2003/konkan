@@ -71,7 +71,7 @@ export const waterActivities: WaterActivity[] = [
     subtitle: 'Tarkarli & Alibaug',
     location: 'Tarkarli & Alibaug',
     description:
-      'Soar 100 metres above Tarkarli's turquoise lagoon on a parasail while the entire Sindhudurg coastline unfolds below — Devbag beach, the mangrove backwaters, and the fort silhouette. At Alibaug, jet skis rip across Revdanda Creek with the ruined Kolaba Fort as backdrop.',
+      'Soar 100 metres above Tarkarli\'s turquoise lagoon on a parasail while the entire Sindhudurg coastline unfolds below — Devbag beach, the mangrove backwaters, and the fort silhouette. At Alibaug, jet skis rip across Revdanda Creek with the ruined Kolaba Fort as backdrop.',
     details: [
       'Parasailing: 5–8 minute flights, tandem options available for first-timers',
       'Jet Ski: 10 and 20-minute circuits; speedboat rides also available',
@@ -92,7 +92,7 @@ export const waterActivities: WaterActivity[] = [
     subtitle: 'Savitri River & Backwater Routes',
     location: 'Mahad & Tarkarli Backwaters',
     description:
-      'The Savitri River in Raigad district swells ferociously during monsoon, offering Grade III–IV rapids through dense riverine forest. Post-monsoon, the same river mellows into a kayaker's paradise: palm-shaded banks, kingfisher sightings, and tidal creeks merging with the sea at Bankot.',
+      'The Savitri River in Raigad district swells ferociously during monsoon, offering Grade III–IV rapids through dense riverine forest. Post-monsoon, the same river mellows into a kayaker\'s paradise: palm-shaded banks, kingfisher sightings, and tidal creeks merging with the sea at Bankot.',
     details: [
       'Monsoon rafting (Jun–Sep): Grade III–IV stretches, guide mandatory',
       'Savitri estuary kayaking: 2–3 hr guided paddles available Oct–May',
@@ -133,7 +133,7 @@ export const treks: Trek[] = [
     subtitle: 'Harishchandragad · Rajmachi · Kalsubai',
     location: 'Northern Sahyadri Range',
     description:
-      'The northern Sahyadri ridgeline that frames the Konkan's eastern horizon hosts Maharashtra's most iconic summit treks. Kalsubai at 1,646 m is the highest peak in the state — its iron-rung final section and 360° panorama of the Konkan plains are unforgettable. Harishchandragad's Kokan Kada cliff-face drops 200 m straight into the monsoon mist.',
+      'The northern Sahyadri ridgeline that frames the Konkan\'s eastern horizon hosts Maharashtra\'s most iconic summit treks. Kalsubai at 1,646 m is the highest peak in the state — its iron-rung final section and 360° panorama of the Konkan plains are unforgettable. Harishchandragad\'s Kokan Kada cliff-face drops 200 m straight into the monsoon mist.',
     stats: [
       { label: 'Highest point', value: '1,646 m' },
       { label: 'Trail length', value: '12–18 km' },
@@ -141,7 +141,7 @@ export const treks: Trek[] = [
     ],
     highlights: [
       'Kalsubai: step-ladder scramble at the summit; sunrise panorama of the Deccan plateau',
-      'Harishchandragad: Kokan Kada overhang — one of India's most dramatic cliff viewpoints',
+      'Harishchandragad: Kokan Kada overhang — one of India\'s most dramatic cliff viewpoints',
       'Rajmachi Fort: twin bastions of Shrivardhan and Manaranjan, ancient Peshwa watchtowers',
       'Route passes through Sahyadri tiger reserve buffer zone — leopard and sloth bear country',
       'Cave shelters (natural & manmade) for overnight camping near all three peaks',
@@ -194,7 +194,7 @@ export const treks: Trek[] = [
     highlights: [
       'Thoseghar: 7-cascade system; viewpoints accessible by road; full trail for experienced walkers',
       'Amboli waterfall + Hiranyakeshi river source: combined 4-hr trek through evergreen forest',
-      'Vajrai (Bamnoli, Satara): Maharashtra's tallest single-drop waterfall; boat + trail combo',
+      'Vajrai (Bamnoli, Satara): Maharashtra\'s tallest single-drop waterfall; boat + trail combo',
       'Devkund Waterfall (Bhira): 80 m plunge pool, emerald water; 4 km forest trail from Bhira village',
       'Savitri Falls at Daivat Kanda: hidden gem accessible only during early monsoon',
     ],
@@ -229,7 +229,7 @@ export const natureExperiences: NatureExperience[] = [
     subtitle: 'Tillari · Phansad · Karnala',
     location: 'Across Konkan Districts',
     description:
-      'The Konkan belt sits along one of South Asia's most active bird migration corridors. In winter, Siberian ducks, flamingos, and terns flood the estuaries, while the Sahyadri forests host endemic and rare resident species year-round — including the Malabar pied hornbill, the Indian paradise flycatcher, and elusive Sri Lanka frogmouth.',
+      'The Konkan belt sits along one of South Asia\'s most active bird migration corridors. In winter, Siberian ducks, flamingos, and terns flood the estuaries, while the Sahyadri forests host endemic and rare resident species year-round — including the Malabar pied hornbill, the Indian paradise flycatcher, and elusive Sri Lanka frogmouth.',
     highlights: [
       'Karnala Bird Sanctuary: 37 km from Mumbai; 228 species recorded; iconic rocky pinnacle backdrop',
       'Phansad Wildlife Sanctuary: remote and undervisited; gaur, leopard, and over 170 bird species',
@@ -269,7 +269,7 @@ export const natureExperiences: NatureExperience[] = [
     subtitle: 'Radhanagari · Tillari · Phansad',
     location: 'Kolhapur, Sindhudurg, Raigad',
     description:
-      'Radhanagari is Maharashtra's oldest wildlife sanctuary and home to a significant population of the Indian bison (gaur). Stay in a forest-edge eco-lodge and take pre-dawn jeep safaris through the teak and bamboo canopy. Tillari, straddling the Goa border, is wilder and almost tourist-free — guides here are former poachers turned conservationists.',
+      'Radhanagari is Maharashtra\'s oldest wildlife sanctuary and home to a significant population of the Indian bison (gaur). Stay in a forest-edge eco-lodge and take pre-dawn jeep safaris through the teak and bamboo canopy. Tillari, straddling the Goa border, is wilder and almost tourist-free — guides here are former poachers turned conservationists.',
     highlights: [
       'Radhanagari: jeep safaris (book at FD office, Kolhapur); gaur, leopard, marsh crocodiles',
       'Tillari dam backwaters: bird-rich shores; eco-lodge run by tribal self-help group',
