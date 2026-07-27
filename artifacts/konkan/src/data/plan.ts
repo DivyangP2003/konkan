@@ -255,7 +255,7 @@ export const transportModes: TransportMode[] = [
     title: 'Konkan Railway',
     subtitle: 'The Backbone of Coastal Travel',
     description:
-      'The Konkan Railway is one of the great engineering marvels of modern India — 760 km of track through 2,000 bridges, 92 tunnels, and the edge of the Western Ghats. The scenic section between Ratnagiri and Kudal, where the train runs through tunnels and emerges on cliff viaducts above the sea, is routinely called one of the world's most beautiful train journeys.',
+      'The Konkan Railway is one of the great engineering marvels of modern India — 760 km of track through 2,000 bridges, 92 tunnels, and the edge of the Western Ghats. The scenic section between Ratnagiri and Kudal, where the train runs through tunnels and emerges on cliff viaducts above the sea, is routinely called one of the world\'s most beautiful train journeys.',
     details: [
       {
         heading: 'Key Stations',
@@ -321,7 +321,7 @@ export const transportModes: TransportMode[] = [
     title: 'Local Ferries & Boats',
     subtitle: 'Inter-Creek & Coastal Water Transport',
     description:
-      'The Konkan's network of creeks, estuaries, and harbours has been served by boats for centuries — and for many coastal villages, boats remain the only practical connection to the outside world. For the traveller, these crossings are among the most memorable experiences on the coast: small wooden vessels, fishermen heading to sea, and views no road can provide.',
+      'The Konkan\'s network of creeks, estuaries, and harbours has been served by boats for centuries — and for many coastal villages, boats remain the only practical connection to the outside world. For the traveller, these crossings are among the most memorable experiences on the coast: small wooden vessels, fishermen heading to sea, and views no road can provide.',
     details: [
       {
         heading: 'Mumbai–Alibaug Catamaran',
@@ -411,7 +411,7 @@ export const accommodationTypes: AccommodationType[] = [
     title: 'Homestays & Eco-Lodges',
     subtitle: 'Authentic Konkan Living',
     description:
-      'The Konkan homestay culture is genuine and deeply rewarding. You sleep in the family home, eat meals cooked in a wood-fire kitchen by the homeowner's mother, and wake to coconut trees and birdsong. The best homestays are not found on any app — they\'re passed around by word of mouth, or listed on Maharashtra Tourism\'s portal.',
+      'The Konkan homestay culture is genuine and deeply rewarding. You sleep in the family home, eat meals cooked in a wood-fire kitchen by the homeowner\'s mother, and wake to coconut trees and birdsong. The best homestays are not found on any app — they\'re passed around by word of mouth, or listed on Maharashtra Tourism\'s portal.',
     options: [
       {
         name: 'Atithi Bamboo Homestay',

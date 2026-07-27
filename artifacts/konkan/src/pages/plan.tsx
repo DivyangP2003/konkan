@@ -587,7 +587,7 @@ export default function PlanPage() {
             <div className="mb-12">
               <p className="text-[9px] tracking-[0.4em] uppercase font-sans text-[#c17f3a] mb-3">Getting Around</p>
               <p className="font-sans text-sm text-[#f4ecd8]/45 max-w-2xl leading-relaxed">
-                The Konkan rewards the traveller who mixes modes — train to get here, car to explore the backroads, boat to reach the forts. Here's how each works.
+                The Konkan rewards the traveller who mixes modes — train to get here, car to explore the backroads, boat to reach the forts. Here&apos;s how each works.
               </p>
             </div>
             <div className="space-y-16">
