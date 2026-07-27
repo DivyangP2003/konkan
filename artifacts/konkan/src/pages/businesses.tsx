@@ -14,7 +14,7 @@ import {
 } from '@/data/businesses';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/auth-store';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const ratingStars = (r: number) =>
   Array.from({ length: 5 }, (_, i) => (

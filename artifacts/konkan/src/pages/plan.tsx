@@ -22,7 +22,7 @@ import {
 } from '@/data/plan';
 import { itineraryHelpers, type ItineraryDay } from '@/lib/itinerary-helpers';
 import { useAuthStore } from '@/stores/auth-store';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { KONKAN_WEATHER_LOCATIONS } from '@/lib/weather';
 
 type Tab = 'itineraries' | 'transport' | 'accommodation' | 'practical' | 'builder';
