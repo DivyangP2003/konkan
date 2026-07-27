@@ -22,6 +22,9 @@ import HeritagePage from './pages/heritage';
 import SpiritualPage from './pages/spiritual';
 import AdventurePage from './pages/adventure';
 import PlanPage from './pages/plan';
+import StoriesPage from './pages/stories';
+import AboutPage from './pages/about';
+import ContactPage from './pages/contact';
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,10 @@ function Router() {
       {/* Phase 3 — Adventure & Plan Your Trip */}
       <Route path="/adventure" component={AdventurePage} />
       <Route path="/plan" component={PlanPage} />
+      {/* Phase 4 — Stories, Community & Contact */}
+      <Route path="/stories" component={StoriesPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route component={NotFound} />
     </Switch>
   );
