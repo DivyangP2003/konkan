@@ -8,6 +8,10 @@ import { ExperienceSection } from '@/components/experience-section';
 import { ParallaxDivider }  from '@/components/parallax-divider';
 import { PortalGrid }       from '@/components/portal-grid';
 import { Footer }           from '@/components/footer';
+import { FeaturedJourneys } from '@/components/featured-journeys';
+import { Testimonials }     from '@/components/testimonials';
+import { RecentBlogPosts }  from '@/components/recent-blog-posts';
+import { SeasonalCTA }      from '@/components/seasonal-cta';
 
 export default function Home() {
   return (
@@ -18,8 +22,13 @@ export default function Home() {
       <MarqueeTicker />
       <KonkanMap />
       <StorySection />
+      {/* ── Phase 5 additions ── */}
+      <FeaturedJourneys />
+      <SeasonalCTA />
       <ExperienceSection />
       <ParallaxDivider />
+      <Testimonials />
+      <RecentBlogPosts />
       <PortalGrid />
       <Footer />
     </main>
