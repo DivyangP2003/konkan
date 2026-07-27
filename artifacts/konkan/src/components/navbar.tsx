@@ -94,8 +94,9 @@ interface NavbarProps {
 
 export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   const [scrolled, setScrolled] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
+  // Only one top-level dropdown panel can be open at a time. Sharing one state
+  // guarantees the Mega and More panels never overlap or fight over z-order.
+  const [openMenu, setOpenMenu] = useState<'mega' | 'more' | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCat, setDrawerCat] = useState<number | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
@@ -121,7 +122,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
-        setMegaOpen(false);
+        setOpenMenu(null);
       }
     };
     document.addEventListener('mousedown', handler);
@@ -129,8 +130,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   }, []);
 
   useEffect(() => {
-    setMegaOpen(false);
-    setMoreOpen(false);
+    setOpenMenu(null);
     setDrawerOpen(false);
   }, [location]);
 
@@ -146,7 +146,16 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
   }, []);
 
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const isLight = scrolled || megaOpen || moreOpen;
+  const isLight = scrolled || openMenu !== null;
+  const megaOpen = openMenu === 'mega';
+  const moreOpen = openMenu === 'more';
+
+  // Toggles a top-level menu. Opens it if closed, closes it if it is open, and
+  // always switches to the requested menu — so opening More auto-closes Mega
+  // and vice versa, with no overlap.
+  const toggleMenu = (name: 'mega' | 'more') =>
+    setOpenMenu(openMenu === name ? null : name);
+  const closeMenus = () => setOpenMenu(null);
 
   const navLinkClass = (extra?: string) =>
     cn(
@@ -191,7 +200,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
 
           <div className="hidden lg:flex min-w-0 flex-1 items-center justify-center gap-1">
             <button
-              onClick={() => setMegaOpen((o) => !o)}
+              onClick={() => toggleMenu('mega')}
               className={navLinkClass('flex items-center gap-1.5 relative')}
               aria-expanded={megaOpen}
             >
@@ -204,13 +213,13 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
               )}
             </button>
 
-            <Link href="/destinations" onClick={() => setMegaOpen(false)} className={navLinkClass()}>
+            <Link href="/destinations" onClick={closeMenus} className={navLinkClass()}>
               Destinations
               <span className={navUnderlineClass} />
             </Link>
 
             {primaryLinks.map(({ label, href }) => (
-              <Link key={href} href={href} onClick={() => setMegaOpen(false)} className={navLinkClass()}>
+              <Link key={href} href={href} onClick={closeMenus} className={navLinkClass()}>
                 {label}
                 <span className={navUnderlineClass} />
               </Link>
@@ -218,7 +227,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
 
             <div className="relative">
               <button
-                onClick={() => setMoreOpen((o) => !o)}
+                onClick={() => toggleMenu('more')}
                 className={navLinkClass('flex items-center gap-1.5 relative')}
                 aria-expanded={moreOpen}
               >
@@ -237,14 +246,14 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-1/2 top-full mt-4 w-[360px] -translate-x-1/2 border border-[#1c4b31] bg-[#06150d]/98 p-3 shadow-2xl backdrop-blur-xl"
+                    className="absolute left-1/2 top-full mt-4 w-[360px] -translate-x-1/2 border border-[#1c4b31] bg-[#06150d]/98 p-3 shadow-2xl backdrop-blur-xl z-50"
                   >
                     <div className="grid grid-cols-2 gap-1">
                       {moreLinks.map(({ label, href, description }) => (
                         <Link
                           key={href}
                           href={href}
-                          onClick={() => setMoreOpen(false)}
+                          onClick={closeMenus}
                           className="group rounded-sm px-3 py-2.5 transition-colors hover:bg-[#0d2d1e]/70"
                         >
                           <span className="flex items-center justify-between text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#f4ecd8]/80 group-hover:text-[#f4ecd8]">
@@ -255,13 +264,13 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
                         </Link>
                       ))}
                       {user?.role === 'admin' && (
-                        <Link href="/admin" onClick={() => setMoreOpen(false)} className="rounded-sm px-3 py-2.5 transition-colors hover:bg-[#0d2d1e]/70">
+                        <Link href="/admin" onClick={closeMenus} className="rounded-sm px-3 py-2.5 transition-colors hover:bg-[#0d2d1e]/70">
                           <span className="text-[10px] font-sans font-medium uppercase tracking-[0.16em] text-[#c17f3a]">Admin</span>
                           <span className="mt-1 block font-sans text-[9px] text-[#f4ecd8]/35">Manage the platform</span>
                         </Link>
                       )}
                     </div>
-                    <Link href="/explore" onClick={() => setMoreOpen(false)} className="mt-2 flex items-center justify-between border-t border-[#0d2d1e] px-3 pt-3 text-[9px] font-sans uppercase tracking-[0.22em] text-[#3a9e6e] hover:text-[#4ab57e]">
+                    <Link href="/explore" onClick={closeMenus} className="mt-2 flex items-center justify-between border-t border-[#0d2d1e] px-3 pt-3 text-[9px] font-sans uppercase tracking-[0.22em] text-[#3a9e6e] hover:text-[#4ab57e]">
                       Browse all realms
                       <ArrowUpRight className="h-3 w-3" />
                     </Link>
@@ -291,7 +300,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
 
             <a
               href="/#carousel"
-              onClick={() => setMegaOpen(false)}
+              onClick={closeMenus}
               className="flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-sans text-[#f7f2eb] bg-[#7B1E3A] hover:bg-[#65162F] px-5 py-2.5 transition-colors duration-300 shrink-0"
             >
               Begin Journey
@@ -317,7 +326,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="border-t border-[#0d2d1e]/60 bg-[#020d08]/98 backdrop-blur-2xl"
+              className="border-t border-[#0d2d1e]/60 bg-[#020d08]/98 backdrop-blur-2xl z-40"
             >
               <div className="max-w-[1400px] mx-auto px-8 md:px-14 py-10 pb-12">
                 <p className="text-[9px] tracking-[0.5em] uppercase font-sans text-[#f4ecd8]/25 mb-8">
@@ -342,7 +351,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
                             <Link
                               key={id}
                               href={`${base}/realm/${id}`}
-                              onClick={() => setMegaOpen(false)}
+                              onClick={closeMenus}
                               className="group flex items-center gap-3 py-2 px-1 rounded transition-all duration-200 hover:bg-[#0d2d1e]/60"
                             >
                               <div className="w-[2px] h-4 rounded-full shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ backgroundColor: cat.color }} />
@@ -363,7 +372,7 @@ export function Navbar({ onAuthRequired }: NavbarProps = {}) {
                   </p>
                   <Link
                     href="/explore"
-                    onClick={() => setMegaOpen(false)}
+                    onClick={closeMenus}
                     className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#3a9e6e] hover:text-[#4ab57e] transition-colors duration-200 flex items-center gap-2"
                   >
                     View all realms
