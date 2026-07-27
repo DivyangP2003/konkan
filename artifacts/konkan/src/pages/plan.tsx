@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
@@ -20,7 +20,7 @@ import {
   type AccommodationType,
   type PracticalSection,
 } from '@/data/plan';
-import { itineraryHelpers, type ItineraryDay } from '@/lib/itinerary-helpers';
+import { itineraryHelpers, type ItineraryDay, type SavedItinerary } from '@/lib/itinerary-helpers';
 import { useAuthStore } from '@/stores/auth-store';
 import { useToast } from '@/hooks/use-toast';
 import { KONKAN_WEATHER_LOCATIONS } from '@/lib/weather';
@@ -506,28 +506,46 @@ function ItineraryBuilder() {
     updateDay(dayIdx, 'activities', d.activities.filter((_, i) => i !== actIdx));
   }
 
+  const [savedList, setSavedList] = useState<SavedItinerary[]>([]);
+  const [listLoading, setListLoading] = useState(false);
+
+  async function loadSavedItineraries() {
+    if (!user) return;
+    setListLoading(true);
+    const { data, error } = await itineraryHelpers.list(user.id);
+    setListLoading(false);
+    if (!error) setSavedList(data ?? []);
+  }
+
+  useEffect(() => {
+    loadSavedItineraries();
+  }, [user?.id]);
+
   async function handleSave() {
     if (!user) {
       toast({ title: 'Sign in required', description: 'Please sign in to save your itinerary.' });
       return;
     }
     setSaving(true);
-    const { data, error } = await itineraryHelpers.save(user.id, {
+    const payload = {
       title,
       duration_days: days.length,
       trip_type: tripType,
       budget_min: budgetMin,
       budget_max: budgetMax,
-      destinations: [],
+      destinations: [] as string[],
       days: days.map((d) => ({ ...d, activities: d.activities.filter(Boolean) })),
       is_public: false,
-    });
+    };
+    const { data, error } = await itineraryHelpers.save(user.id, payload);
     setSaving(false);
     if (error) {
-      toast({ title: 'Error', description: 'Could not save itinerary. Please try again.' });
+      console.error('Itinerary save error:', error);
+      toast({ title: 'Could not save itinerary', description: (error as any)?.message || 'Please try again.' });
     } else {
       setSavedId(data?.id ?? null);
       toast({ title: 'Saved!', description: 'Your itinerary has been saved to your account.' });
+      loadSavedItineraries();
     }
   }
 
@@ -699,6 +717,47 @@ function ItineraryBuilder() {
           {days.length} day itinerary · Est. ₹{(budgetMin * days.length).toLocaleString('en-IN')}–₹{(budgetMax * days.length).toLocaleString('en-IN')}
         </p>
       </div>
+
+      {/* Saved Itineraries List */}
+      {user && (
+        <div className="border-t border-[#0d2d1e] pt-8">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-[9px] tracking-[0.32em] uppercase font-sans text-[#f4ecd8]/30">
+              My Saved Itineraries
+            </p>
+            <button onClick={loadSavedItineraries}
+              className="text-[9px] tracking-[0.18em] uppercase font-sans text-[#3a9e6e]/60 hover:text-[#3a9e6e] transition-colors">
+              Refresh
+            </button>
+          </div>
+          {listLoading ? (
+            <p className="text-[10px] font-sans text-[#f4ecd8]/30">Loading…</p>
+          ) : savedList.length === 0 ? (
+            <p className="text-[10px] font-sans text-[#f4ecd8]/25">No saved itineraries yet.</p>
+          ) : (
+            <div className="space-y-3">
+              {savedList.map((it) => (
+                <div key={it.id} className="p-4 border border-[#0d2d1e] hover:border-[#1a4a30] transition-colors group">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-serif text-lg text-[#f4ecd8] group-hover:text-[#3a9e6e] transition-colors">{it.title}</p>
+                      <p className="text-[9px] font-sans text-[#f4ecd8]/30 mt-1">
+                        {it.duration_days} day{it.duration_days > 1 ? 's' : ''} · {it.trip_type} · {it.days.length} day entries
+                        {it.budget_min != null && it.budget_max != null ? ` · Est. ₹${(it.budget_min * it.duration_days).toLocaleString('en-IN')}–₹${(it.budget_max * it.duration_days).toLocaleString('en-IN')}` : ''}
+                      </p>
+                    </div>
+                    {it.is_public && (
+                      <span className="text-[7px] tracking-[0.2em] uppercase font-sans px-2 py-1 border border-[#3a9e6e]/30 text-[#3a9e6e]/60">
+                        Public
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
